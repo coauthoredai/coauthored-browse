@@ -69,3 +69,9 @@ def test_disabled_arxiv_features_are_404(dbclient):
                  '/institutional_banner', '/show-email/x/0906.2112']:
         assert dbclient.get(path).status_code == 404, path
     assert dbclient.get('/format/0906.2112').status_code == 200  # '/form' must not catch '/format'
+
+
+def test_operator_named_on_terms_privacy_and_about(dbclient):
+    for path in ('/terms', '/privacy', '/about'):
+        assert 'Gideon Solutions, LLC' in dbclient.get(path).data.decode(), path
+    assert 'laws of the State of North Carolina' in dbclient.get('/terms').data.decode()

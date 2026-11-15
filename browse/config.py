@@ -36,6 +36,10 @@ class Settings(arxiv_base.Settings):
     ANALYTICS_BASE_URL: str = ""
     ANALYTICS_COOKIE_DOMAIN: str = ""
     COAUTHORED_SOURCE_URL: str = "https://github.com/coauthoredai/coauthored-browse"
+    COAUTHORED_OPERATOR: str = "Gideon Solutions, LLC"
+    COAUTHORED_OPERATOR_LOCATION: str = "Charlotte, North Carolina"
+    COAUTHORED_GOVERNING_LAW: str = "the State of North Carolina"
+    """Who operates Coauthored, named in the terms, privacy policy and about page."""
     COAUTHORED_DISABLED_PATHS: list[str] = [
         "/tb", "/trackback", "/stats", "/institutional_banner", "/show-email",
         "/auth/show-endorsers", "/refs/", "/cits/", "/cookies", "/openurl-cookie", "/ct",

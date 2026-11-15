@@ -1,6 +1,6 @@
 {%- extends "pages/_page.html" -%}
 {% block page %}
-<p>These terms apply to everyone who uses Coauthored, and in particular to people who create an account or submit papers. By using the site you agree to them.</p>
+<p>Coauthored is operated by {{ config['COAUTHORED_OPERATOR'] }}, of {{ config['COAUTHORED_OPERATOR_LOCATION'] }} ("we", "us"). These terms apply to everyone who uses Coauthored, and in particular to people who create an account or submit papers. By using the site you agree to them.</p>
 
 <h2>Reading</h2>
 <p>Papers on Coauthored are available under the licence shown on each paper's abstract page. Coauthored does not review papers for correctness; read them critically.</p>
@@ -26,6 +26,9 @@
 
 <h2>No warranty</h2>
 <p>Coauthored is provided "as is", without warranties of any kind. We do not guarantee that the site will be available without interruption or that papers are accurate. To the extent the law allows, we are not liable for any loss arising from the use of the site or of papers on it.</p>
+
+<h2>Governing law</h2>
+<p>These terms are governed by the laws of {{ config['COAUTHORED_GOVERNING_LAW'] }} and applicable federal law.</p>
 
 <h2>Changes</h2>
 <p>We may update these terms. Material changes will be announced on the site before they take effect.</p>
