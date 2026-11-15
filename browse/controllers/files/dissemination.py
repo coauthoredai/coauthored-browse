@@ -113,7 +113,7 @@ def pdf_resp_fn(file: FileObj,
     resp = default_resp_fn(file, arxiv_id, docmeta, version)
     filename = f"{arxiv_id.filename}v{version.version}.pdf"
     resp.headers["Content-Disposition"] = f"inline; filename=\"{filename}\""
-    resp.headers["Link"] = f"<https://arxiv.org/pdf/{arxiv_id.id}>; rel='canonical'"
+    resp.headers["Link"] = f"<https://{current_app.config['MAIN_SERVER']}/pdf/{arxiv_id.id}>; rel='canonical'"
     if arxiv_id.has_version: 
         resp.headers=b_add_surrogate_key(resp.headers,["pdf",f"pdf-{arxiv_id.idv}"])
     else:
@@ -215,7 +215,7 @@ def _html_response(file_list: Union[List[FileObj],FileObj],
         resp.headers=b_add_surrogate_key(resp.headers,["html-latexml"])
         if _is_html_name(file_list):
             resp.headers['X-Robots-Tag'] = 'nofollow'
-            resp.headers["Link"] = f"<https://arxiv.org/html/{arxiv_id.id}>; rel='canonical'"
+            resp.headers["Link"] = f"<https://{current_app.config['MAIN_SERVER']}/html/{arxiv_id.id}>; rel='canonical'"
         elif _is_latexml_log(file_list):
             resp.headers['X-Robots-Tag'] = 'noindex, nofollow'
     else:
@@ -233,7 +233,7 @@ def _html_source_single_response(file: FileObj, arxiv_id: Identifier) -> Respons
     """Produces a `Response`for a single file for a paper with HTML source."""
     if _is_html_name(file):  # do post_processing
         resp = default_resp_fn( FileTransform(file, post_process_html), arxiv_id)
-        resp.headers["Link"] = f"<https://arxiv.org/html/{arxiv_id.id}>; rel='canonical'"
+        resp.headers["Link"] = f"<https://{current_app.config['MAIN_SERVER']}/html/{arxiv_id.id}>; rel='canonical'"
         return resp
     else:
         return default_resp_fn( file, arxiv_id)

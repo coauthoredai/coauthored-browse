@@ -42,7 +42,7 @@ def test_authors_atom(url, dbclient, mocker):
     assert 'feed' in root.tag
 
     ns = {'atom': 'http://www.w3.org/2005/Atom',
-          'arxiv': 'http://arxiv.org/schemas/atom'}
+          'arxiv': 'https://coauthored.pub/schemas/atom'}
     entries = root.findall('atom:entry', ns)
     assert len(entries) == 18
 

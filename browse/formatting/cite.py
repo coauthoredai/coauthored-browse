@@ -1,4 +1,5 @@
 """Functions to make citation strings."""
+from flask import current_app, has_app_context
 
 
 from typing import List
@@ -6,6 +7,14 @@ from typing import List
 from arxiv.authors import parse_author_affil_utf
 
 from arxiv.document.metadata import DocMetadata
+
+
+def _host() -> str:
+    """Coauthored's host: the app's MAIN_SERVER, or the default outside a request."""
+    if has_app_context():
+        return str(current_app.config["MAIN_SERVER"])
+    from browse.config import COAUTHORED_SERVER
+    return COAUTHORED_SERVER
 
 
 def arxiv_bibtex(docm: DocMetadata) -> str:
@@ -26,10 +35,10 @@ def arxiv_bibtex(docm: DocMetadata) -> str:
         "      author={" + auths + "},\n"
         "      year={" + year + "},\n"
         "      eprint={" + docm.arxiv_id + "},\n"
-        "      archivePrefix={arXiv},\n"
+        "      archivePrefix={coauthored},\n"
         "      primaryClass={" + str(pc) + "},\n"
         + doi +
-        f"      url={{https://arxiv.org/abs/{docm.arxiv_identifier.id}}}, \n"
+        f"      url={{https://{_host()}/abs/{docm.arxiv_identifier.id}}}, \n"
         "}"
     )
 

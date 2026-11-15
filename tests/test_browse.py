@@ -351,7 +351,7 @@ class BrowseTest(unittest.TestCase):
         self.assertTrue(ida, 'Should be <a> tag in title')
 
         self.assertIsNotNone(ida['href'], '<a> tag in title should have href')
-        self.assertEqual(ida['href'], 'https://arxiv.org/abs/1501.99998')
+        self.assertEqual(ida['href'], 'https://coauthored.pub/abs/1501.99998')
 
         self.assertEqual(ida.text, '1501.99998')
 
@@ -440,13 +440,13 @@ class BrowseTest(unittest.TestCase):
 
         j_liang = a_tags[0]
         self.assertEqual(
-            j_liang['href'], 'https://arxiv.org/search/eess?searchtype=author&query=Liang,+J')
+            j_liang['href'], 'https://coauthored.pub/search?searchtype=author&archive=eess&query=Liang,+J')
         j_cao = a_tags[1]
         self.assertEqual(
-            j_cao['href'], 'https://arxiv.org/search/eess?searchtype=author&query=Cao,+J')
+            j_cao['href'], 'https://coauthored.pub/search?searchtype=author&archive=eess&query=Cao,+J')
         g_sun = a_tags[2]
         self.assertEqual(
-            g_sun['href'], 'https://arxiv.org/search/eess?searchtype=author&query=Sun,+G')
+            g_sun['href'], 'https://coauthored.pub/search?searchtype=author&archive=eess&query=Sun,+G')
         
     def test_year(self):
         rv = self.client.get('/year/astro-ph/2009')

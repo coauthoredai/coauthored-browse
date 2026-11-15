@@ -31,7 +31,7 @@ def test_abs_head(dbclient):
     head = html.head
     canonical_link = head.find('link', {'rel': 'canonical'})
     assert canonical_link is not None
-    assert canonical_link['href'] == "https://arxiv.org/abs/0906.2112"
+    assert canonical_link['href'] == "https://coauthored.pub/abs/0906.2112"
 
     meta_description = head.find('meta', {'name': 'description'})
     assert meta_description is not None

@@ -196,7 +196,7 @@ def get_abs_page(arxiv_id: str) -> Response:
     except AbsException as ex:
         raise InternalServerError(
             "There was a problem. If this problem persists, please contact "
-            "help@arxiv.org."
+            f"{current_app.config['COAUTHORED_HELP_EMAIL']}."
         ) from ex
 
     return response_data, status.OK, response_headers

@@ -44,4 +44,4 @@ def test_settings_gets_envvar(app_with_envvars):
 
 def test_auth_server_in_login_url(app_with_envvars):
     with app_with_envvars.test_request_context('/home', method='GET'):
-        assert "https://" + AUTH_SERVER_VALUE + '/login' == url_for('login')
+        assert "https://" + AUTH_SERVER_VALUE + '/sign-in' == url_for('login')

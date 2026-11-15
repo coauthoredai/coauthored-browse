@@ -14,8 +14,71 @@ log = logging.getLogger(__name__)
 
 DAY = 60 * 60 * 24 # one day of seconds
 
+COAUTHORED_SERVER = os.environ.get("BASE_SERVER", "coauthored.pub")
+"""Coauthored's own host. Every link the app builds points here, never to arXiv's hosts."""
+
+
 class Settings(arxiv_base.Settings):
-    """Class for settings for arxiv-browse web app."""
+    """Class for settings for the Coauthored browse web app (adapted from arxiv-browse)."""
+
+    # Coauthored hosts. arxiv-base defaults these to arXiv's servers; a fork must not link
+    # its readers to arXiv's services as if they were its own.
+    BASE_SERVER: str = COAUTHORED_SERVER
+    AUTH_SERVER: str = COAUTHORED_SERVER
+    SEARCH_SERVER: str = COAUTHORED_SERVER
+    SUBMIT_SERVER: str = COAUTHORED_SERVER
+    CANONICAL_SERVER: str = COAUTHORED_SERVER
+    HELP_SERVER: str = COAUTHORED_SERVER
+    MAIN_SERVER: str = COAUTHORED_SERVER
+    """Host used by arxiv-base's canonical_url(); it defaults to arxiv.org."""
+    COAUTHORED_HELP_EMAIL: str = f"help@{COAUTHORED_SERVER}"
+    ARXIV_ACCESSIBILITY_URL: str = f"https://{COAUTHORED_SERVER}/contact"
+    ANALYTICS_BASE_URL: str = ""
+    ANALYTICS_COOKIE_DOMAIN: str = ""
+    COAUTHORED_SOURCE_URL: str = "https://github.com/coauthored/coauthored-browse"
+    """Public source of this fork, linked from every page's footer."""
+
+    URLS: list[tuple[str, str, str]] = [
+        ("a11y", "/accessibility", "HELP_SERVER"),
+        ("about", "/about", "HELP_SERVER"),
+        ("about_give", "/about", "HELP_SERVER"),
+        ("about_people", "/about", "HELP_SERVER"),
+        ("acknowledgment", "/about", "HELP_SERVER"),
+        ("contact", "/contact", "HELP_SERVER"),
+        ("copyright", "/policies/licenses", "HELP_SERVER"),
+        ("faq", "/help", "HELP_SERVER"),
+        ("help", "/help", "HELP_SERVER"),
+        ("help_archive_description", "/help/categories#<archive>", "HELP_SERVER"),
+        ("help_identifier", "/help/identifiers", "HELP_SERVER"),
+        ("help_mathjax", "/help", "HELP_SERVER"),
+        ("help_social_bookmarking", "/help", "HELP_SERVER"),
+        ("help_submit", "/help/submit", "HELP_SERVER"),
+        ("help_trackback", "/help", "HELP_SERVER"),
+        ("new", "/", "HELP_SERVER"),
+        ("privacy_policy", "/privacy", "HELP_SERVER"),
+        ("subscribe", "/help", "HELP_SERVER"),
+        ("team", "/about", "HELP_SERVER"),
+        ("abs", "/abs/<arxiv:paper_id>v<string:version>", "BASE_SERVER"),
+        ("abs_by_id", "/abs/<arxiv:paper_id>", "BASE_SERVER"),
+        ("pdf", "/pdf/<arxiv:paper_id>", "BASE_SERVER"),
+        ("canonical_pdf", "/pdf/<arxiv:paper_id>v<string:version>", "CANONICAL_SERVER"),
+        ("canonical_pdf_by_id", "/pdf/<arxiv:paper_id>", "CANONICAL_SERVER"),
+        ("canonical_abs", "/abs/<arxiv:paper_id>v<string:version>", "CANONICAL_SERVER"),
+        ("canonical_abs_by_id", "/abs/<arxiv:paper_id>", "CANONICAL_SERVER"),
+        ("clickthrough", "/ct", "BASE_SERVER"),
+        ("home", "/", "BASE_SERVER"),
+        ("ignore_me", "/IgnoreMe", "BASE_SERVER"),
+        ("account", "/account", "AUTH_SERVER"),
+        ("login", "/sign-in", "AUTH_SERVER"),
+        ("logout", "/sign-out", "AUTH_SERVER"),
+        ("create", "/sign-up", "SUBMIT_SERVER"),
+        ("submit", "/submit", "SUBMIT_SERVER"),
+        ("search_advanced", "/search", "SEARCH_SERVER"),
+        ("search_archive", "/search", "SEARCH_SERVER"),
+        ("search_box", "/search", "SEARCH_SERVER"),
+    ]
+    """Named links, with arxiv-base's names (templates use them) and Coauthored's pages.
+    arXiv's Cornell, blog, wiki and Twitter links are dropped."""
 
     APP_VERSION: str = "0.3.4"
     """The application version """
@@ -25,7 +88,7 @@ class Settings(arxiv_base.Settings):
     See `<https://flask-s3.readthedocs.io/en/latest/>`_.
     """
     FLASKS3_BUCKET_NAME: str = "some_bucket"
-    FLASKS3_CDN_DOMAIN: str = "static.arxiv.org"
+    FLASKS3_CDN_DOMAIN: str = ""
     FLASKS3_USE_HTTPS: bool = True
     FLASKS3_FORCE_MIMETYPE: bool = True
     FLASKS3_ACTIVE: bool = False
@@ -60,7 +123,7 @@ class Settings(arxiv_base.Settings):
     The file contains one line, with key "total_papers" and an integer, e.g.
     total_papers 1456755."""
 
-    BROWSE_SITE_LABEL: str = "arXiv.org"
+    BROWSE_SITE_LABEL: str = "Coauthored"
 
     BRAND_STATIC_BASE: str | None = None
     """Root URL of the design-system asset route (CSS, fonts, logos, chrome JS). Unset, the
@@ -213,16 +276,16 @@ class Settings(arxiv_base.Settings):
     Set to be random by default to avoid leaking in misconfigured apps."""
 
     # Labs settings
-    LABS_ENABLED: bool = True
+    LABS_ENABLED: bool = False
     """arXiv Labs global enable/disable."""
-    LABS_BIBEXPLORER_ENABLED: bool = True
+    LABS_BIBEXPLORER_ENABLED: bool = False
     """arXiv Labs Bibliographic Explorer enable/disable."""
     LABS_CORE_RECOMMENDER_ENABLED: bool = False
     """CORE Recommender enabled/disabled."""
 
     # Auth settings These set settings of the arxiv-auth package.
     AUTH_SESSION_COOKIE_NAME: str = "ARXIVNG_SESSION_ID"
-    AUTH_SESSION_COOKIE_DOMAIN: str = ".arxiv.org"
+    AUTH_SESSION_COOKIE_DOMAIN: str = "." + COAUTHORED_SERVER
     AUTH_SESSION_COOKIE_SECURE: bool = True
     AUTH_UPDATED_SESSION_REF: bool = True
 
