@@ -31,7 +31,7 @@ class Settings(arxiv_base.Settings):
     HELP_SERVER: str = COAUTHORED_SERVER
     MAIN_SERVER: str = COAUTHORED_SERVER
     """Host used by arxiv-base's canonical_url(); it defaults to arxiv.org."""
-    COAUTHORED_HELP_EMAIL: str = f"help@{COAUTHORED_SERVER}"
+    COAUTHORED_HELP_EMAIL: str = f"admin@{COAUTHORED_SERVER}"
     ARXIV_ACCESSIBILITY_URL: str = f"https://{COAUTHORED_SERVER}/contact"
     ANALYTICS_BASE_URL: str = ""
     ANALYTICS_COOKIE_DOMAIN: str = ""
