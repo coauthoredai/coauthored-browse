@@ -1,0 +1,31 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<form method="GET" action="{{ url_for('search.search') }}" role="search" class="ca-search-form">
+  <label for="ca-search-query">Search papers</label>
+  <input type="text" id="ca-search-query" name="query" value="{{ query }}" class="ds-input" autocomplete="off">
+  <label for="ca-search-type">in</label>
+  <select id="ca-search-type" name="searchtype">
+    {%- for value, label in [('all', 'All fields'), ('title', 'Title'), ('author', 'Authors'), ('abstract', 'Abstract'), ('paper_id', 'Identifier')] %}
+    <option value="{{ value }}"{% if value == searchtype %} selected{% endif %}>{{ label }}</option>
+    {%- endfor %}
+  </select>
+  {%- if archive %}<input type="hidden" name="archive" value="{{ archive }}">{% endif %}
+  <button type="submit">Search</button>
+</form>
+{%- if query %}
+  <p>{{ total }} result{{ '' if total == 1 else 's' }} for <strong>{{ query }}</strong>{% if archive %} in {{ archive }}{% endif %}.</p>
+  <ol start="{{ start + 1 }}" class="ca-results">
+  {%- for m in results %}
+    <li>
+      <a href="{{ url_for('browse.abstract', arxiv_id=m.paper_id) }}">coauthored:{{ m.paper_id }}</a>
+      [{{ m.abs_categories.split()[0] if m.abs_categories }}]
+      <div class="mathjax"><strong>{{ m.title }}</strong></div>
+      <div>{{ m.authors }}</div>
+    </li>
+  {%- endfor %}
+  </ol>
+  {%- if start + page < total %}
+  <p><a href="{{ url_for('search.search', query=query, searchtype=searchtype, archive=archive or None, start=start + page) }}">Next {{ page }}</a></p>
+  {%- endif %}
+{%- endif %}
+{% endblock %}

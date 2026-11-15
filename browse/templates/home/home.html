@@ -79,10 +79,10 @@
     {%- for archive in group.get_archives() | sort(attribute='full_name') -%}
       {%- set archive_search_url = url_for('search_archive', archive=archive.id) -%}
       {%- set archive_url = url_for('browse.archive', archive=archive.id) -%}
-      {%- set archive_name = archive.full_name if archive.id != 'cs' else 'Computing Research Repository' -%}
+      {%- set archive_name = archive.full_name -%}
     <li>
       <a href="{{ archive_url }}" id="main-{{ archive.id }}" aria-labelledby="main-{{ archive.id }}">{{ archive_name }}</a>
-      (<strong id="{{ archive.id }}">{{ archive.id if archive.id != 'cs' else 'CoRR' }}</strong>
+      (<strong id="{{ archive.id }}">{{ archive.id }}</strong>
       <a id="new-{{ archive.id }}" aria-labelledby="new-{{ archive.id }} {{ archive.id }}" href="/list/{{ archive.id }}/new">new</a>,
       <a id="recent-{{ archive.id }}" aria-labelledby="recent-{{ archive.id }} {{ archive.id }}" href="/list/{{ archive.id }}/recent">recent</a>,
       <a id="search-{{ archive.id }}" aria-labelledby="search-{{ archive.id }} {{ archive.id }}" href="{{ archive_search_url }}">search</a>)

@@ -51,3 +51,6 @@ html.js .ds-site-header-nav-toggle { display: none; }
 .ca-contribution { margin: .15rem 0 0; }
 .ca-ai-system, .ca-contributions-note { color: var(--ca-muted); }
 .ca-responsible { font-size: .8em; border: 1px solid var(--ca-muted); border-radius: 3px; padding: 0 .3em; margin-left: .3em; }
+.ca-search-form { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: 1rem; }
+.ca-search-form .ds-input { flex: 1 1 18rem; width: auto; }
+.ca-results li { margin-bottom: .8rem; }

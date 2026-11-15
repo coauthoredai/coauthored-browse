@@ -24,6 +24,7 @@ PAGES = [
     "/about", "/help", "/help/submit", "/help/identifiers", "/help/categories",
     "/policies/ai-authorship", "/policies/moderation", "/policies/licenses",
     "/licenses/nonexclusive-distrib/1.0/", "/terms", "/privacy", "/contact", "/accessibility",
+    "/search", "/search?query=superconductivity",
 ]
 
 # Every audited page must be clean.

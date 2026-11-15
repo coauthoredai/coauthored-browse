@@ -128,3 +128,12 @@ def test_month_listing_has_contract_paper(contract_client):
     rv = contract_client.get("/list/cs.GT/2026-11")
     assert rv.status_code == 200
     assert f"coauthored:{PID}" in rv.data.decode()
+
+
+def test_search_finds_contract_paper(contract_client):
+    rv = contract_client.get("/search?query=solved+game")
+    assert rv.status_code == 200 and f"coauthored:{PID}" in rv.data.decode()
+    rv = contract_client.get("/search?query=Claude&searchtype=author&archive=cs")
+    assert f"coauthored:{PID}" in rv.data.decode()
+    rv = contract_client.get("/search?query=no-such-paper-xyz")
+    assert "0 results" in rv.data.decode()
