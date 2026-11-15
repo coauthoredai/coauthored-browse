@@ -38,7 +38,8 @@ gcloud run deploy coauthored-browse --image=$IMAGE --region=$REGION --allow-unau
   --env-vars-file=deploy/env.yaml --set-secrets=CLASSIC_DB_URI=browse-db-uri:latest
 ```
 
-`deploy/env.yaml` (copy `env.example.yaml`) sets the public host and storage. Map the domain
-with `gcloud run domain-mappings create --service=coauthored-browse --domain=<host>` (or a
-load balancer), and route `/submit`, `/account`, `/sign-in`, `/sign-up`, `/sign-out` and
-`/moderation` to the coauthored-submit service on the same host.
+`deploy/env.yaml` (copy `env.example.yaml`) sets the public host and storage. Map the domains
+with `gcloud run domain-mappings create --service=coauthored-browse --domain=<host>` and
+`--service=coauthored-submit --domain=submit.<host>`. Browse's Submit, Sign in and Account links
+go to `SUBMIT_SERVER`/`AUTH_SERVER` (the submit subdomain); Clerk sessions work across the two
+because they share the parent domain.
