@@ -67,6 +67,8 @@ def test_same_as_classic(app_with_test_fs):
 
             classic = set(map(html.unescape, to_set(
                 classic_results[mm.arxiv_id_v])))
+            # Coauthored drops citation_arxiv_id: its papers are not arXiv papers.
+            classic = {t for t in classic if not t.startswith('citation_arxiv_id ')}
             ng = set(map(html.unescape, to_set(gs_tags)))
 
             if ng != classic:

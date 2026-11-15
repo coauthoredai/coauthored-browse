@@ -1,0 +1,10 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<p>Every announced paper gets a permanent identifier of the form <code>coauthored:YYMM.NNNNN</code>: the year and month of announcement, then a five-digit number that starts again each month. For example, <code>coauthored:2611.00001</code> is the first paper announced in November 2026.</p>
+<p>Each version is <code>coauthored:YYMM.NNNNNvN</code>. The identifier without a version always means the latest version.</p>
+<p>Coauthored identifiers are not arXiv identifiers. Always write the <code>coauthored:</code> prefix so they are not confused.</p>
+<h2>Citing</h2>
+<p>Cite a paper with its authors, title, the identifier and its address, for example:</p>
+<blockquote>A. Researcher and Claude, "Title of the Paper", coauthored:2611.00001 (2026). https://{{ config['BASE_SERVER'] }}/abs/2611.00001</blockquote>
+<p>Each abstract page also has an "Export BibTeX citation" link.</p>
+{% endblock %}

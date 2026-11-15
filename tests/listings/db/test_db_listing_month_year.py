@@ -178,7 +178,7 @@ def test_month_listing_page( client_with_db_listings):
     assert 'Authors and titles for October 1995' in text
     #listing item dispalyed properly
     assert 'Estimating the Attractor Dimension of the Equatorial Weather System'in text 
-    assert '<a href ="/abs/chao-dyn/9510015" title="Abstract" id="chao-dyn/9510015">\n        arXiv:chao-dyn/9510015\n      </a>' in text
+    assert '<a href ="/abs/chao-dyn/9510015" title="Abstract" id="chao-dyn/9510015">\n        coauthored:chao-dyn/9510015\n      </a>' in text
     assert '<a href="https://coauthored.pub/search?searchtype=author&amp;archive=chao-dyn&amp;query=Tiong,+M+L+B">Melvin Leok Boon Tiong</a>' in text
 
 def test_year_listing_page( client_with_db_listings):
@@ -193,7 +193,7 @@ def test_year_listing_page( client_with_db_listings):
     assert 'Authors and titles for 1995' in text
     #listing item dispalyed properly
     assert 'Estimating the Attractor Dimension of the Equatorial Weather System'in text 
-    assert '<a href ="/abs/chao-dyn/9510015" title="Abstract" id="chao-dyn/9510015">\n        arXiv:chao-dyn/9510015\n      </a>' in text
+    assert '<a href ="/abs/chao-dyn/9510015" title="Abstract" id="chao-dyn/9510015">\n        coauthored:chao-dyn/9510015\n      </a>' in text
     assert '<a href="https://coauthored.pub/search?searchtype=author&amp;archive=chao-dyn&amp;query=Tiong,+M+L+B">Melvin Leok Boon Tiong</a>' in text
 
 def test_old_style_ids_use_prefix_like(app_with_db):

@@ -1,0 +1,32 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<p>These terms apply to everyone who uses Coauthored, and in particular to people who create an account or submit papers. By using the site you agree to them.</p>
+
+<h2>Reading</h2>
+<p>Papers on Coauthored are available under the licence shown on each paper's abstract page. Coauthored does not review papers for correctness; read them critically.</p>
+
+<h2>Accounts</h2>
+<p>You must give accurate information, keep your sign-in secure, and use one account per person. We may suspend accounts that break these terms or our policies.</p>
+
+<h2>Submitting</h2>
+<p>When you submit a paper you confirm that:</p>
+<ul>
+  <li>you are one of its human authors, and every human author agreed to the submission and to being listed;</li>
+  <li>the author list and contribution statements are accurate and follow the <a href="{{ url_for('ai_policy') }}">AI authorship policy</a>;</li>
+  <li>you have the right to distribute the paper under the licence you choose, and it does not infringe anyone's copyright or other rights;</li>
+  <li>it contains nothing illegal, defamatory, or harmful, and no personal data about others that they have not agreed to publish.</li>
+</ul>
+<p>You grant Coauthored the rights in the licence you choose, and at least the right to store, reproduce and distribute the paper and its metadata. Announced papers are permanent records; see the <a href="{{ url_for('moderation_policy') }}">moderation policy</a> for new versions and withdrawals.</p>
+
+<h2>Moderation</h2>
+<p>We may decline, hold, or remove any submission or paper that breaks these terms or our policies, or where the law requires it.</p>
+
+<h2>Copyright and other complaints</h2>
+<p>If you believe a paper infringes your copyright or other rights, write to us through the <a href="{{ url_for('contact') }}">contact page</a> with: the paper's identifier; the work or right you say is infringed; your contact details; a statement that you believe in good faith the use is not authorised; and a statement that the information is accurate and that you are the rights holder or authorised to act for them. We will review it, may remove access to the paper while we do, and will tell the submitter.</p>
+
+<h2>No warranty</h2>
+<p>Coauthored is provided "as is", without warranties of any kind. We do not guarantee that the site will be available without interruption or that papers are accurate. To the extent the law allows, we are not liable for any loss arising from the use of the site or of papers on it.</p>
+
+<h2>Changes</h2>
+<p>We may update these terms. Material changes will be announced on the site before they take effect.</p>
+{% endblock %}

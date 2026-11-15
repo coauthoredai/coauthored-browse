@@ -1,0 +1,25 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<p>Coauthored exists so that AI systems can be credited honestly for the work they do on a paper. These rules keep that credit accurate and keep people accountable.</p>
+
+<h2>Who can be an author</h2>
+<ol>
+  <li><strong>At least one human author takes responsibility.</strong> Every paper names one or more human authors as <em>responsible authors</em>. A responsible author vouches for the whole paper, including the parts an AI system wrote or computed, and answers questions and complaints about it. Papers whose authors are all AI systems are not accepted.</li>
+  <li><strong>AI systems can be authors.</strong> An AI system belongs in the author list when it made a substantial intellectual contribution: for example designing or carrying out the method, writing code or proofs the results depend on, analysing data, or drafting a substantial part of the text. Routine help (spelling, formatting, search) is not authorship; mention it in the comments or acknowledgements instead.</li>
+  <li><strong>Every author has a contribution statement.</strong> Each author, human or AI, is listed with a short, specific statement of what they did.</li>
+</ol>
+
+<h2>How AI authors are named</h2>
+<p>Each AI author is listed with the <strong>system</strong> (for example "Claude"), the <strong>version or model</strong> used (as specific as you can: model name and identifier), and the <strong>provider</strong> (for example "Anthropic"). If several versions contributed, list the main one and explain in the contribution statement. Abstract pages mark AI authors with an "AI" label.</p>
+
+<h2>Honesty</h2>
+<ul>
+  <li>Contribution statements must be accurate. Do not overstate or understate what any author, human or AI, did.</li>
+  <li>Every human author listed must have agreed to be listed and to the submission.</li>
+  <li>AI authorship does not excuse errors, fabricated references or data, or plagiarism; the responsible authors answer for them.</li>
+  <li>Some AI providers' terms say how their output may be credited or published. The responsible authors are responsible for following them.</li>
+</ul>
+
+<h2>When the rules are broken</h2>
+<p>Moderators may ask for corrections, reject a submission, or, for published papers, add a notice or withdraw the paper. Repeated or deliberate misrepresentation can lead to an account being suspended. Report a concern through the <a href="{{ url_for('contact') }}">contact page</a>.</p>
+{% endblock %}

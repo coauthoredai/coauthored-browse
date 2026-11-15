@@ -29,7 +29,7 @@
       <h1>Article {{ arxiv_id }} not found</h1>
       <p>There is no record of an article with identifier '{{ arxiv_id }}'.
       You might instead {% if reason=='version_not_found' %}look at the latest version of
-      this article: '<a href="{{ url_for('browse.abstract', arxiv_id=arxiv_id_latest ) }}">arXiv:{{ arxiv_id_latest }}</a>',
+      this article: '<a href="{{ url_for('browse.abstract', arxiv_id=arxiv_id_latest ) }}">coauthored:{{ arxiv_id_latest }}</a>',
       or {% endif %}try to <a href="{{url_for('search_box')}}">search for articles</a>.</p>
       {{ identifier_help() }}
 
@@ -43,7 +43,7 @@
 
     {% elif reason=='deleted' and message|string %}
       <h1>Article {{ arxiv_id_latest }} not found</h1>
-      <p><b>The article <i>{{ arxiv_id_latest }}</i> is recorded as having been deleted from arXiv.
+      <p><b>The article <i>{{ arxiv_id_latest }}</i> is recorded as having been deleted from Coauthored.
           The reason recorded is <i>"{{ message }}"</i>.
       </b></p>
       {{ identifier_help() }}
@@ -52,7 +52,7 @@
       <h1>Incomplete article identifer '{{ arxiv_id }}'</h1>
       <p>If you are looking for an article in the {{ archive_name }} ({{ arxiv_id }}) archive then
       please enter the complete article ID in the search box in the top right of this page. You can use this
-      search box from most arXiv pages. Articles submitted after 1 April 2007 have identifiers of the form
+      search box from most Coauthored pages. Articles submitted after 1 April 2007 have identifiers of the form
       <code>YYMM.NNNN</code> (e.g. <code>0704.1234</code>, there is no {{ arxiv_id }}/ prefix), or
       <code>YYMM.NNNNN</code> (e.g. <code>1507.00123</code>, there is no {{ arxiv_id }}/ prefix),
       whereas articles submitted
@@ -73,29 +73,27 @@
     <h1>Article identifier '{{ arxiv_id}}' not recognized</h1>
     <p>You might instead try to <a href="{{url_for('search_box')}}">search for articles</a> using
     title or author information.</p>
-    <p>For additional help on arXiv identifiers, see
-    <a href="{{url_for('help_identifier')}}">understanding the arXiv identifier</a>.</p>
+    <p>For help with identifiers, see
+    <a href="{{url_for('help_identifier')}}">Identifiers and citing</a>.</p>
 
   {% else %}
     <h1>No article identifier specified</h1>
     <p>If you know the article identifier then
     please enter it in the search box in the top right of this page. You can use this
-    search box from most arXiv pages. Articles submitted after 1 April 2007 have identifiers of the form
+    search box from most Coauthored pages. Articles submitted after 1 April 2007 have identifiers of the form
     <code>YYMM.NNNN</code> (e.g. <code>0704.12345</code>, there is no archive/ prefix), or
     <code>YYMM.NNNNN</code> (e.g. <code>1507.00123</code>, there is no archive/ prefix), whereas articles submitted
     before then have identifier of the form <code>archive/YYMMNNN</code> (e.g. <code>archive/0701001</code>).</p>
     <p>You might instead try to <a href="{{url_for('search_box')}}">search for articles</a> using
     title or author information.</p>
-    <p>For additional help on arXiv identifiers, see
-    <a href="{{url_for('help_identifier')}}">understanding the arXiv identifier</a>.</p>
+    <p>For help with identifiers, see
+    <a href="{{url_for('help_identifier')}}">Identifiers and citing</a>.</p>
   {% endif %}
 
 {% endblock content %}
 
 {% macro identifier_help() -%}
-  <p>Identifiers for arXiv articles have the form YYMM.NNNNN, e.g. 1507.00123,
-  YYMM.NNNN, e.g. 0704.0001, or arch-ive/YYMMNNN for older articles,
-  e.g. hep-th/9901001. To access an article simply enter the identifier in the
+  <p>Identifiers for Coauthored papers have the form YYMM.NNNNN, e.g. 2611.00001. To access an article simply enter the identifier in the
   search box. The web address for access to the abstract is constructed by
   prepending <code>{{url_for('browse.abstract', _external=True, _scheme='https')}}</code>.</p>
 {%- endmacro %}

@@ -1,0 +1,24 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<p>This policy explains what personal data Coauthored handles and why.</p>
+
+<h2>What we collect</h2>
+<ul>
+  <li><strong>Account data</strong>: your name, email address and, if you give it, your ORCID iD. Sign-in is handled by our authentication provider, Clerk.</li>
+  <li><strong>Submissions</strong>: everything you submit (paper, metadata, author list, contribution statements), and the record of moderation decisions about it.</li>
+  <li><strong>Technical data</strong>: server logs with IP addresses, browser type and the pages requested, kept for security and to keep the service running.</li>
+</ul>
+<p>We do not use advertising or third-party analytics, and we do not sell personal data.</p>
+
+<h2>What is public</h2>
+<p>When a paper is announced, its title, abstract, author names, contribution statements, ORCID iDs given for authors, categories, dates and the submitter's name are published, together with the paper itself. These are permanent scholarly records.</p>
+
+<h2>Who processes data for us</h2>
+<p>Google Cloud (hosting, database and file storage), Clerk (accounts and sign-in) and our email provider (notifications). They act on our instructions.</p>
+
+<h2>How long we keep it</h2>
+<p>Account data is kept while your account exists. Published papers and their metadata are kept permanently. Unpublished submissions and their moderation records are kept for up to two years after the last decision. Server logs are kept for up to 90 days.</p>
+
+<h2>Your rights</h2>
+<p>You can ask to see, correct, or delete your personal data, and close your account, through the <a href="{{ url_for('contact') }}">contact page</a>. Published records are kept, but we will correct errors in them.</p>
+{% endblock %}

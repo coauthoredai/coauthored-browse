@@ -16,7 +16,7 @@ from browse import brand
 # from arxiv.users.auth import Auth
 
 from browse.config import Settings
-from browse.routes import ui, dissemination, src, unimplemented, redirects
+from browse.routes import ui, dissemination, src, unimplemented, pages
 from browse.commands import invalidate, check_paper_formats
 from browse.services.check import service_statuses
 from browse.formatting.email import generate_show_email_hash
@@ -45,6 +45,17 @@ def create_web_app(**kwargs) -> Flask: # type: ignore
     # templates, which carry arXiv's trademarks.
     brand.init_app(app)
 
+    # arXiv features Coauthored doesn't offer answer 404 (see COAUTHORED_DISABLED_PATHS).
+    disabled = tuple(settings.COAUTHORED_DISABLED_PATHS)
+
+    @app.before_request
+    def _coauthored_disabled_paths():  # type: ignore
+        from flask import abort, request
+        path = request.path
+        if any(path == p.rstrip("/") or path.startswith(p if p.endswith("/") else p + "/")
+               for p in disabled):
+            abort(404)
+
     # Log long SQL queries
     config_query_timing(app.engine, 0.2, 8) # type: ignore
     #Auth(app)
@@ -53,7 +64,7 @@ def create_web_app(**kwargs) -> Flask: # type: ignore
     app.register_blueprint(ui.blueprint)
     app.register_blueprint(dissemination.blueprint)
     app.register_blueprint(src.blueprint)
-    app.register_blueprint(redirects.blueprint)
+    app.register_blueprint(pages.blueprint)
     app.register_blueprint(unimplemented.blueprint)
 
     # commands

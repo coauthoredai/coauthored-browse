@@ -34,91 +34,6 @@ class BrowseTest(unittest.TestCase):
         self.assertNotIn('None/login', txt)
 
 
-    def test_tb(self):
-        """Test the /tb/<arxiv_id> page."""
-        rv = self.client.get('/tb/1901.99999')
-        self.assertEqual(rv.status_code, 404)
-
-        rv = self.client.get('/tb/')
-        self.assertEqual(rv.status_code, 400)
-
-        rv = self.client.get('/tb/foo')
-        self.assertEqual(rv.status_code, 404)
-
-        rv = self.client.get('/tb/0808.4142')
-        self.assertEqual(rv.status_code, 200)
-
-        html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-        h2_elmt = html.find('h2', {'class': 'trackback-heading'})
-        h2_txt = h2_elmt.text
-        self.assertTrue(h2_elmt, 'Should have <h2> element')
-        self.assertEqual(h2_txt, 'Trackbacks for 0808.4142')
-        tb_a_tags = html.find_all('a', 'mathjax', rel='external nofollow')
-        self.assertGreater(len(tb_a_tags), 1,
-                           'There should be more than one <a> tag for trackbacks')
-        h1_elmt = html.find('div', id='abs')
-        h1_txt = h1_elmt.text
-        self.assertTrue(h1_elmt, 'Should have <h1 id="abs"> element')
-        self.assertRegex(
-            h1_txt,
-            r'Observation of the doubly strange b baryon Omega_b-',
-            '<h1> element contains title of article')
-
-    def test_tb_recent(self):
-        """Test the /tb/recent page."""
-        rv = self.client.get('/tb/recent')
-        self.assertEqual(rv.status_code, 200)
-
-        rv = self.client.post('/tb/recent', data=dict(views='50'))
-        self.assertEqual(rv.status_code, 200, 'POST with integer OK')
-
-        rv = self.client.post('/tb/recent', data=dict(views='bar'))
-        self.assertEqual(rv.status_code, 400, 'POST with non-integer not OK')
-
-        rv = self.client.get('/tb/recent/foo')
-        self.assertEqual(rv.status_code, 404)
-
-        rv = self.client.post('/tb/recent', data=dict(views='1'))
-        self.assertEqual(rv.status_code, 200, 'POST with views==1 OK')
-        html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-        tb_a_tags = html.find_all('a', 'mathjax', rel='external nofollow')
-        self.assertGreaterEqual(len(tb_a_tags), 1,
-                          'There should at least one trackback link')
-
-    def test_stats_today(self):
-        """Test the /stats/today page."""
-        rv = self.client.get('/stats/today')
-        self.assertEqual(200, rv.status_code)
-        rv = self.client.get('/stats/today?date=20190102')
-        self.assertEqual(200, rv.status_code)
-        html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-
-        csv_dl_elmt = html.find(
-            'a', {'href': '/stats/get_hourly?date=20190102'})
-        self.assertIsNotNone(csv_dl_elmt,
-                             'csv download link exists')
-
-    def test_stats_monthly_downloads(self):
-        """Test the /stats/monthly_downloads page."""
-        rv = self.client.get('/stats/monthly_downloads')
-        self.assertEqual(rv.status_code, 200)
-        html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-
-        csv_dl_elmt = html.find('a', {'href': '/stats/get_monthly_downloads'})
-        self.assertIsNotNone(csv_dl_elmt,
-                             'csv download link exists')
-
-    def test_stats_monthly_submissions(self):
-        """Test the /stats/monthly_submissions page."""
-        rv = self.client.get('/stats/monthly_submissions')
-        self.assertEqual(rv.status_code, 200)
-        html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-
-        csv_dl_elmt = html.find(
-            'a', {'href': '/stats/get_monthly_submissions'})
-        self.assertIsNotNone(csv_dl_elmt,
-                             'csv download link exists')
-
     def test_abs_without_license_field(self):
         f1 = ABS_FILES + '/ftp/arxiv/papers/0704/0704.0001.abs'
         m = parse_abs_file(LocalFileObj(Path(f1)))
@@ -240,13 +155,13 @@ class BrowseTest(unittest.TestCase):
         html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
         div_elmt = html.find('div', class_= 'header-breadcrumbs-mobile')
         div_txt = div_elmt.text
-        self.assertRegex(div_txt, r'arXiv:physics\/9707012')
-        self.assertNotRegex(div_txt, r'arXiv:physics\/9707012v')
+        self.assertRegex(div_txt, r'coauthored:physics\/9707012')
+        self.assertNotRegex(div_txt, r'coauthored:physics\/9707012v')
 
         title_elmt = html.find('title')
         title_txt = title_elmt.text
         self.assertRegex(title_txt, r'physics\/9707012')
-        self.assertNotRegex(title_txt, r'arXiv:physics\/9707012v')
+        self.assertNotRegex(title_txt, r'coauthored:physics\/9707012v')
         pdf_dl_elmt = html.find('a', {'href': '/pdf/physics/9707012'})
         self.assertIsNotNone(pdf_dl_elmt,
                              'pdf download link without version affix exists')
@@ -259,7 +174,7 @@ class BrowseTest(unittest.TestCase):
         html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
         div_elmt = html.find('div', class_='header-breadcrumbs-mobile')
         div_txt = div_elmt.text
-        self.assertRegex(div_txt, r'arXiv:physics\/9707012v4')
+        self.assertRegex(div_txt, r'coauthored:physics\/9707012v4')
 
         title_elmt = html.find('title')
         title_txt = title_elmt.text
@@ -485,18 +400,6 @@ class BrowseTest(unittest.TestCase):
             rv.data.decode('utf-8'),
             'Secondary categories should be orderd by category id ARXIVNG-2066')
 
-    def test_covid_message(self):
-        rv = self.client.get('/abs/physics/9707012')
-        self.assertEqual(rv.status_code, 200)
-        html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-        self.assertIsNone(html.find('div', class_='message-special'))
-        covid_papers = ['2004.05256', '2004.08990', '2004.09471']
-        for id in covid_papers:
-            rv = self.client.get(f'/abs/{id}')
-            self.assertEqual(rv.status_code, 200)
-            html = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-            self.assertIsNotNone(html.find('div', class_='message-special'))
-
     def test_tex2utf_in_jref(self):
         rv = self.client.get('/abs/2006.02835')
         self.assertEqual(rv.status_code, 200)
@@ -680,7 +583,7 @@ class BrowseTest(unittest.TestCase):
         self.assertIn("paper has been withdrawn", txt,
                       "Expect a withdrawn message in v1 since v2 is withdrawn.")
 
-        self.assertIn("Older arxiv papers may lack submitter name", txt,
+        self.assertIn("Some papers may lack a submitter name", txt,
                       "Expect a message about lack of submitter name on old paper")
 
 

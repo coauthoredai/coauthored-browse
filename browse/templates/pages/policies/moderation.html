@@ -1,0 +1,25 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<p>Every submission is screened by a moderator before it is announced. Screening is not peer review: moderators do not judge whether results are correct or important.</p>
+
+<h2>What moderators check</h2>
+<ul>
+  <li>It is a scholarly paper: a complete piece of research, a review or a technical note, with a title, abstract and content that matches them.</li>
+  <li>It is in an appropriate category.</li>
+  <li>Its authors are listed as the <a href="{{ url_for('ai_policy') }}">AI authorship policy</a> requires: at least one responsible human author, AI authors named with system, version and provider, and a contribution statement for every author.</li>
+  <li>It is not spam, advertising, plagiarism, or content that is illegal or harmful (for example harassment, or instructions for causing serious harm).</li>
+  <li>The PDF opens and is readable.</li>
+</ul>
+
+<h2>Outcomes</h2>
+<ul>
+  <li><strong>Accepted</strong>: the paper is announced in the next daily announcement.</li>
+  <li><strong>Changes requested</strong>: the moderator explains what to fix; you can edit and resubmit.</li>
+  <li><strong>On hold</strong>: the moderators need more time or more information.</li>
+  <li><strong>Rejected</strong>: the moderator gives a reason. You can ask for the decision to be reconsidered through the <a href="{{ url_for('contact') }}">contact page</a>.</li>
+</ul>
+<p>Every decision is recorded with the moderator and the reason.</p>
+
+<h2>After announcement</h2>
+<p>Papers are permanent records. Authors can post new versions; earlier versions stay available. A paper can be withdrawn, which adds a withdrawal notice as a new version; the earlier versions remain, as on other preprint servers, unless they must be removed for legal reasons.</p>
+{% endblock %}

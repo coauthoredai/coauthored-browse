@@ -1,11 +1,8 @@
 {%- extends "base.html" -%}
-{% block title %}arXiv.org e-Print archive{% endblock %}
+{% block title %}Coauthored: preprints with AI co-authors{% endblock %}
 {% block head %}
   {{ super() -}}
 {% endblock head %}
-{% block opt_in_modal %}
- {% include 'opt_in_modal.html' %}
-{% endblock %}
 {% block body_id %}id="front"{% endblock %}
 
 {%- block content %}
@@ -13,14 +10,10 @@
 
 <div class="columns">
   <div class="column intro-and-news is-half-desktop">
-    <p class="tagline">arXiv is a free distribution service and an open-access archive for more than 3.2 million
-      scholarly articles in the fields of physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science, and economics.
-      Materials on this site are not peer-reviewed by arXiv.
-     </p>
-    <!-- <p class="tagline">arXiv is a free distribution service and an open-access archive for {% if document_count -%}{{ "{:,}".format(document_count) }}{%- endif %}
-     scholarly articles in the fields of physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science, and economics.
-     Materials on this site are not peer-reviewed by arXiv.
-    </p> -->
+    <p class="tagline">Coauthored is an open preprint server for scholarly papers written by humans and AI systems together.
+      AI systems are credited as authors, with their model, version and contribution, and every paper has at least one human author who takes responsibility for it.
+      Submissions are screened by moderators but not peer-reviewed.
+    </p>
 
     {#-  /multi sends to either search, catchup or form interface based on which button is hit. -#}
     <form name="home-adv-search" class="home-search" action="/multi" method="get" role="search">
@@ -62,19 +55,18 @@
     </script>
   </div>
   <!-- special message column -->
-  {%- include "home/special-message.html" -%}
 </div><!-- /end columns -->
 
 {#- TODO: define display order in taxonomy? -#}
 {{- group_section(('grp_physics','grp_math','grp_cs','grp_q-bio','grp_q-fin','grp_stat','grp_eess','grp_econ')) }}
 
 <hr />
-<h2>About arXiv</h2>
+<h2>About Coauthored</h2>
 <ul>
   <li><a href="{{- url_for('about') -}}">General information</a></li>
-  <li><a href="{{url_for('help')}}/submit/index.html">How to Submit to arXiv</a></li>
-  <li><a href="{{url_for('about')}}/donate.html">Membership &amp; Giving</a></li>
-  <li><a href="{{url_for('about')}}/people/index.html">Who We Are</a></li>
+  <li><a href="{{ url_for('help_submit') }}">How to submit</a></li>
+  <li><a href="{{ url_for('ai_policy') }}">AI authorship policy</a></li>
+  <li><a href="{{ url_for('moderation_policy') }}">Moderation</a></li>
 </ul>
 
 {% endblock content -%}
@@ -86,7 +78,7 @@
   <ul>
     {%- for archive in group.get_archives() | sort(attribute='full_name') -%}
       {%- set archive_search_url = url_for('search_archive', archive=archive.id) -%}
-      {%- set archive_url = url_for('browse.archive', archive=archive.id) if archive.id != 'cs' else 'https://info.arxiv.org/help/cs/index.html' -%}
+      {%- set archive_url = url_for('browse.archive', archive=archive.id) -%}
       {%- set archive_name = archive.full_name if archive.id != 'cs' else 'Computing Research Repository' -%}
     <li>
       <a href="{{ archive_url }}" id="main-{{ archive.id }}" aria-labelledby="main-{{ archive.id }}">{{ archive_name }}</a>

@@ -13,21 +13,34 @@ from bs4 import BeautifulSoup
 PAGES = [
     "/",
     "/abs/0906.5132",
-    "/abs/1501.99998",
     "/list/chao-dyn/1995-10",
     "/year/astro-ph/2009",
     "/format/0906.5132",
     "/category_taxonomy",
     "/catchup",
+    "/list/hep-ph/new",
+    "/list/hep-ph/recent",
+    "/archive/hep-ph",
+    "/about", "/help", "/help/submit", "/help/identifiers", "/help/categories",
+    "/policies/ai-authorship", "/policies/moderation", "/policies/licenses",
+    "/licenses/nonexclusive-distrib/1.0/", "/terms", "/privacy", "/contact", "/accessibility",
 ]
 
-# Pages already rebranded; they must stay clean. Add a page once its template is done.
-CLEAN_PAGES: set[str] = set()
+# Every audited page must be clean.
+CLEAN_PAGES: set[str] = set(PAGES)
 
 ALLOWED_TEXT = [
     "Coauthored runs on software adapted from arXiv's open-source code",
     "Coauthored is not affiliated with or endorsed by arXiv.",
+    # Honest references on Coauthored's own pages (about, help), not branding:
+    "arXiv, most journals and most repositories do not allow an AI system to be listed as an author.",
+    "which arXiv publishes under the MIT licence",
+    "Coauthored identifiers are not arXiv identifiers.",
+    "the same subject categories and codes as arXiv",
 ]
+# Licence URIs come from paper metadata; upstream test papers carry arXiv's licences.
+# Coauthored never offers them (CONTRACT.md), so they appear only in test data.
+ALLOWED_LINK_PREFIXES = ("http://arxiv.org/licenses/",)
 UPSTREAM_LINK = "https://github.com/arXiv/arxiv-browse"
 TEXT_PATTERNS = {
     "arXiv in text": re.compile(r"\barxiv\b", re.I),
@@ -43,7 +56,8 @@ def findings(html: str) -> list[str]:
     for tag in soup.find_all(True):
         for attr in ("href", "src", "content", "action"):
             val = tag.get(attr)
-            if isinstance(val, str) and ARXIV_DOMAIN.search(val) and val != UPSTREAM_LINK:
+            if isinstance(val, str) and ARXIV_DOMAIN.search(val) and val != UPSTREAM_LINK \
+                    and not val.startswith(ALLOWED_LINK_PREFIXES):
                 out.append(f"link to arXiv: <{tag.name} {attr}={val[:90]}>")
     for t in soup(["script", "style"]):
         t.decompose()
@@ -78,5 +92,4 @@ def test_no_arxiv_brand_colour_in_css():
     css = Path(__file__).parent.parent / "browse" / "static" / "css"
     hits = [p.name for p in css.glob("*.css") if re.search(r"#b31b1b", p.read_text(errors="replace"), re.I)]
     print("\nCSS files still using arXiv's red (#B31B1B):", hits)
-    allowed_until_rebranded = {"arXiv.css", "abs_audio.css"}
-    assert set(hits) <= allowed_until_rebranded
+    assert not hits

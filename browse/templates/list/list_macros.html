@@ -28,7 +28,7 @@
     <dt>
       <a name='item{{listing_index}}'>[{{listing_index}}]</a>
       <a href ="{{url_for('.abstract', arxiv_id=ids)}}" title="Abstract" id="{{ids}}">
-        arXiv:{{ article.arxiv_id }}
+        coauthored:{{ article.arxiv_id }}
       </a>
       {{ type_info( item ) }}
       {{ dl_links( article ) }}

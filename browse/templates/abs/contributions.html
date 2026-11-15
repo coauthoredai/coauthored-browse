@@ -1,0 +1,20 @@
+{#- Coauthored: who did what. Every author has a contribution statement; AI authors name the
+    system, version and provider; at least one human author takes responsibility. -#}
+<div class="ca-contributions">
+  <h2>Authors and contributions</h2>
+  <ol>
+    {%- for c in contributors %}
+    <li>
+      <strong>{{ c.display_name }}</strong>
+      {%- if c.kind == 'ai' %} <span class="ca-ai-badge">AI</span>
+        <span class="ca-ai-system">({{ c.ai_system }} {{ c.ai_version }}, {{ c.ai_provider }})</span>
+      {%- else %}
+        {%- if c.orcid %} <a href="https://orcid.org/{{ c.orcid }}" class="ca-orcid">ORCID {{ c.orcid }}</a>{% endif %}
+        {%- if c.is_responsible %} <span class="ca-responsible">responsible author</span>{% endif %}
+      {%- endif %}
+      <p class="ca-contribution">{{ c.contribution }}</p>
+    </li>
+    {%- endfor %}
+  </ol>
+  <p class="ca-contributions-note">Responsible authors are human authors who take responsibility for this paper. See the <a href="{{ url_for('ai_policy') }}">AI authorship policy</a>.</p>
+</div>

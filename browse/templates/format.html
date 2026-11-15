@@ -10,7 +10,7 @@
 <dt><b>PDF</b></dt>
 <dd>
 <form action="{{url_for('dissemination.pdf', arxiv_id=arxiv_idv)}}" method="get">
-Now includes fonts, see our <a href="https://info.arxiv.org/help/pdf">PDF help</a>.
+PDFs are supplied by the authors.
 <input type="submit" value="Download PDF" />
 </form>
 <br />
@@ -82,6 +82,6 @@ otherwise as a <b>PDF</b> file, or a <b>gzipped TeX, DVI, PostScript or HTML</b>
 (<code>Content-Encoding: x-gzip</code>). Your browser may silently uncompress
 after downloading so the files you see saved may appear uncompressed.</p>
 
-<p>Please report any problems to <a href="https://arxiv-org.atlassian.net/servicedesk/customer/portal/1">arXiv technical support</a> and include the paper identifier.</p>
+<p>Please report any problems to <a href="{{ url_for('contact') }}">Coauthored</a> and include the paper identifier.</p>
 
 {% endblock %}

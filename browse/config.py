@@ -35,7 +35,15 @@ class Settings(arxiv_base.Settings):
     ARXIV_ACCESSIBILITY_URL: str = f"https://{COAUTHORED_SERVER}/contact"
     ANALYTICS_BASE_URL: str = ""
     ANALYTICS_COOKIE_DOMAIN: str = ""
-    COAUTHORED_SOURCE_URL: str = "https://github.com/coauthored/coauthored-browse"
+    COAUTHORED_SOURCE_URL: str = "https://github.com/coauthoredai/coauthored-browse"
+    COAUTHORED_DISABLED_PATHS: list[str] = [
+        "/tb", "/trackback", "/stats", "/institutional_banner", "/show-email",
+        "/auth/show-endorsers", "/refs/", "/cits/", "/cookies", "/openurl-cookie", "/ct",
+        "/a/", "/audio/", "/repec", "/form",
+    ]
+    """arXiv features Coauthored doesn't offer (trackbacks, arXiv statistics, member
+    institution lookup, endorsement, third-party reference lookups keyed by arXiv IDs,
+    arXiv author IDs, RePEc, the click-through tracker). Requests under these prefixes get 404."""
     """Public source of this fork, linked from every page's footer."""
 
     URLS: list[tuple[str, str, str]] = [
@@ -58,6 +66,11 @@ class Settings(arxiv_base.Settings):
         ("privacy_policy", "/privacy", "HELP_SERVER"),
         ("subscribe", "/help", "HELP_SERVER"),
         ("team", "/about", "HELP_SERVER"),
+        ("ai_policy", "/policies/ai-authorship", "HELP_SERVER"),
+        ("moderation_policy", "/policies/moderation", "HELP_SERVER"),
+        ("licenses_policy", "/policies/licenses", "HELP_SERVER"),
+        ("terms", "/terms", "HELP_SERVER"),
+        ("help_categories", "/help/categories", "HELP_SERVER"),
         ("abs", "/abs/<arxiv:paper_id>v<string:version>", "BASE_SERVER"),
         ("abs_by_id", "/abs/<arxiv:paper_id>", "BASE_SERVER"),
         ("pdf", "/pdf/<arxiv:paper_id>", "BASE_SERVER"),

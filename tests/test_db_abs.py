@@ -35,7 +35,7 @@ def test_abs_head(dbclient):
 
     meta_description = head.find('meta', {'name': 'description'})
     assert meta_description is not None
-    assert meta_description['content'] == "Abstract page for arXiv paper 0906.2112: Symmetric roots and admissible pairing"
+    assert meta_description['content'] == "Abstract page for Coauthored paper 0906.2112: Symmetric roots and admissible pairing"
 
 
 def test_db_abs_history(dbclient):
@@ -155,38 +155,3 @@ def test_abs_surrogate_keys(dbclient):
     assert "abs-0704.0046" in rv.headers['Surrogate-Key']
     assert "paper-id-0704.0046" in rv.headers['Surrogate-Key']
 
-
-def test_guess_DOI(dbclient):
-    #if no DOI in table, should still guess and display DOI value
-    rt = dbclient.get('/abs/0906.2112')
-    assert rt.status_code == 200
-    assert rt.headers.get('Surrogate-Control')
-    html = BeautifulSoup(rt.data.decode('utf-8'), 'html.parser')
-
-    metatable = html.select_one('.metatable')
-    assert metatable
-    text= metatable.get_text()
-    assert 'https://doi.org/10.48550/arXiv.' in text
-    assert 'arXiv-issued DOI via DataCite' in text
-    assert 'arXiv-issued DOI via DataCite (pending registration)' in text
-
-    atag=metatable.find('a', {'id': 'arxiv-doi-link'})
-    assert atag
-    assert atag.text=='https://doi.org/10.48550/arXiv.0906.2112'
-    assert atag.get('href')=='https://doi.org/10.48550/arXiv.0906.2112' 
-
-    #proper format for old ids
-    rt = dbclient.get('/abs/math/0510544')
-    assert rt.status_code == 200
-    assert rt.headers.get('Surrogate-Control')
-    html = BeautifulSoup(rt.data.decode('utf-8'), 'html.parser')
-
-    metatable = html.select_one('.metatable')
-    assert metatable
-    text= metatable.get_text()
-    assert 'arXiv-issued DOI via DataCite (pending registration)' in text
-
-    atag=metatable.find('a', {'id': 'arxiv-doi-link'})
-    assert atag
-    assert atag.text=='https://doi.org/10.48550/arXiv.math/0510544'
-    assert atag.get('href')=='https://doi.org/10.48550/arXiv.math/0510544' 

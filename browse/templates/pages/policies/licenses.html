@@ -1,0 +1,11 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<p>Authors keep their copyright. When you submit, you choose the licence under which Coauthored and everyone else may use the paper. The licence cannot be made more restrictive later, but a new version may use a more open one.</p>
+<ul>
+  <li><strong><a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a> (CC BY 4.0)</strong>, the default: anyone may share and adapt the paper, with credit.</li>
+  <li><strong><a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> (CC BY-SA 4.0)</strong>: as CC BY, and adaptations must use the same licence.</li>
+  <li><strong><a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a></strong>: no rights reserved.</li>
+  <li><strong><a href="{{ url_for('pages.licenses_nonexclusive-distrib_1_0') }}">Coauthored non-exclusive distribution licence 1.0</a></strong>: Coauthored may distribute the paper; all other rights stay with the authors.</li>
+</ul>
+<p>Make sure you are allowed to grant the licence you choose: for example, that no publisher holds rights that conflict with it, and that your AI provider's terms allow it.</p>
+{% endblock %}

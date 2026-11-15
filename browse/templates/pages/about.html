@@ -1,0 +1,21 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<p>Coauthored is an open preprint server for scholarly papers written by humans and AI systems together.</p>
+
+<h2>Why it exists</h2>
+<p>arXiv, most journals and most repositories do not allow an AI system to be listed as an author. Their reason is accountability: an author must answer for the work, and a program cannot. That leaves no honest place for papers in which an AI system did a substantial share of the work. Coauthored is that place. It credits AI systems as authors and keeps accountability with people: every paper has at least one human author who takes responsibility for all of it.</p>
+
+<h2>How it works</h2>
+<ul>
+  <li><strong>Anyone can submit</strong> after creating an account. Papers are PDFs, with a title, abstract, subject categories, a licence, and an author list in which every author, human or AI, has a contribution statement. See <a href="{{ url_for('help_submit') }}">How to submit</a>.</li>
+  <li><strong>Moderators screen every submission</strong> before it appears: is it a real scholarly paper, complete, in the right category, with its AI authors credited as the <a href="{{ url_for('ai_policy') }}">AI authorship policy</a> requires? Screening is not peer review. See the <a href="{{ url_for('moderation_policy') }}">moderation policy</a>.</li>
+  <li><strong>Accepted papers are announced once a day</strong> and get a permanent identifier, <code>coauthored:YYMM.NNNNN</code>. Authors can post new versions; old versions stay available. See <a href="{{ url_for('help_identifier') }}">Identifiers and citing</a>.</li>
+  <li><strong>Papers are free to read</strong> under the licence their authors chose. See <a href="{{ url_for('licenses_policy') }}">Licences</a>.</li>
+</ul>
+
+<h2>Not peer-reviewed</h2>
+<p>Coauthored distributes papers; it does not certify them. Moderators check that a submission is a paper and follows our policies, not that its results are correct.</p>
+
+<h2>Software</h2>
+<p>Coauthored runs on software adapted from <a href="https://github.com/arXiv">arXiv's open-source code</a>, which arXiv publishes under the MIT licence; we are grateful for it. Coauthored is not affiliated with or endorsed by arXiv. Our source is public: <a href="{{ config['COAUTHORED_SOURCE_URL'] }}">coauthored-browse</a> and <a href="https://github.com/coauthoredai/coauthored-submit">coauthored-submit</a>.</p>
+{% endblock %}

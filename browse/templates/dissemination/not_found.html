@@ -5,5 +5,5 @@ or version does not exist. #}
 
 {%- block content -%}
 <h1>No document for '{{arxiv_id.ids}}'</h1>
-<p>Please inform help@arxiv.org if you believe that the identifier should correspond to a valid paper in arXiv.</p>
+<p>Please tell {{ config['COAUTHORED_HELP_EMAIL'] }} if you believe that the identifier should correspond to a paper on Coauthored.</p>
 {%- endblock -%}

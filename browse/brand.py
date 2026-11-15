@@ -25,7 +25,7 @@ DEFAULTS: dict[str, tuple[str, Any]] = {
     "submit_url": ("url", ""),
     "account_path": ("url", "/account"),
     "help_url": ("url", ""),
-    "source_url": ("url", "https://github.com/coauthored/coauthored-browse"),
+    "source_url": ("url", "https://github.com/coauthoredai/coauthored-browse"),
     "upstream_url": ("url", "https://github.com/arXiv/arxiv-browse"),
     "hide_nav": ("bool", False),
     "hide_announcement": ("bool", False),

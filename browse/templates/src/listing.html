@@ -3,12 +3,12 @@
 {% block title %}Ancillary files for {{arxiv_id.idv}}{% endblock %}
 
 {% block content %}
-<h2>Ancillary files for <a href="{{url_for('browse.abstract', arxiv_id=arxiv_id.idv)}}">arXiv:{{arxiv_id.idv}}</a></h2>
+<h2>Ancillary files for <a href="{{url_for('browse.abstract', arxiv_id=arxiv_id.idv)}}">coauthored:{{arxiv_id.idv}}</a></h2>
 <p>There are {{anc_file_list|length}} ancillary files associated with this article. You may download
 them individually using the links below, or you
 may <a href="{{url_for("src.src", arxiv_id_str=arxiv_id.idv)}}">download the entire source package</a> as a
 gzipped tar file (.tar.gz). See <a href="/help/ancillary_files">ancillary files
-help</a> for more information about arXiv support for ancillary material.
+help</a> for more information about ancillary material.
 </p>
 <ul>
   {%- for anc_file in anc_file_list -%}

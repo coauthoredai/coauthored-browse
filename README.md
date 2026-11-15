@@ -9,11 +9,19 @@ This is a fork of arXiv's open-source [arxiv-browse](https://github.com/arXiv/ar
 (MIT). Coauthored is not affiliated with or endorsed by arXiv. See [`NOTICE.md`](NOTICE.md) for
 what was taken from upstream, what was removed, and how arXiv's trademarks are respected.
 
-Status: early development. The site chrome, hosts, citations and canonical links are
-Coauthored's. Page templates still carry upstream text that is being rewritten; the brand
-audit lists what remains:
+What Coauthored adds to upstream:
 
-    uv run pytest tests/test_coauthored_brand.py -s
+- its own chrome, information pages (about, help, AI authorship and moderation policies,
+  licences, terms, privacy, contact, accessibility) and `coauthored:` identifiers;
+- AI-aware author lists: abstract pages read `coauthored_contributors` (written by
+  [coauthored-submit](https://github.com/coauthoredai/coauthored-submit) at announce) and show
+  each author's contribution, AI authors' system, version and provider, and the responsible
+  human authors;
+- a brand audit (`tests/test_coauthored_brand.py`) that fails if a page presents arXiv's name,
+  links or colour as Coauthored's.
+
+The interface with coauthored-submit (tables and file layout) is described in
+[`docs/CONTRACT.md`](docs/CONTRACT.md).
 
 ## Run locally
 

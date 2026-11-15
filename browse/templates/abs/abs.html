@@ -7,28 +7,16 @@
 {% block head %}
   {{ super() -}}
   <link rel="canonical" href="{{ canonical_url(abs_meta.arxiv_id) }}"/>
-  <meta name="description" content="Abstract page for arXiv paper {{ requested_id }}: {{ abs_meta.title|tex2utf }}">
+  <meta name="description" content="Abstract page for Coauthored paper {{ requested_id }}: {{ abs_meta.title|tex2utf }}">
   {{- generate_social_media_tags() }}
   <link rel="stylesheet" media="screen" type="text/css" href="{{ url_for('static', filename='css/tooltip.css') }}"/>
-  {%- if config['LABS_ENABLED'] and config['LABS_BIBEXPLORER_ENABLED'] -%}
-  <link rel="stylesheet" media="screen" type="text/css" href="https://static.arxiv.org/js/bibex-dev/bibex.css?20200709"/>
-  {%- endif %}
   <script src="{{ url_for('static', filename='js/mathjaxToggle.min.js') }}" type="text/javascript"></script>
-  {%- if config['LABS_ENABLED'] -%}
-  {#  <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='css/paperwithcode.css') }}" /> #}
-  <script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-  <script src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js" type="text/javascript"></script>
-  <script src="//cdn.jsdelivr.net/npm/dompurify@2.3.5/dist/purify.min.js"></script>
-  <script src="{{ url_for('static', filename='js/toggle-labs.js') }}?20241022" type="text/javascript"></script>
-  <script src="{{ url_for('static', filename='js/cite.js') }}" type="text/javascript"></script>
-  {%- endif %}
   {{- generate_scholar_tags() }}
 {% endblock head %}
 
 {% block body_id %}{% endblock %}
 
 {%- block content %}
-{%- include "abs/trackback_rdf.html" %}
 <div id="abs-outer">
   {% set download_button %}
     {{ generate_download_button() }}
@@ -40,19 +28,13 @@
     </div>
 
     <div class="header-breadcrumbs-mobile">
-      <strong>arXiv:{{ requested_id }}</strong> ({{ abs_meta.primary_archive.id }})
+      <strong>coauthored:{{ requested_id }}</strong> ({{ abs_meta.primary_archive.id }})
     </div>
-    {% if is_covid_match %}
-    <div class="message-special" style="margin:2em 1em;">
-      <span class="label">COVID-19 e-print</span>
-      <p><em>Important:</em> e-prints posted on arXiv are not peer-reviewed by arXiv; they should not be relied upon without context to guide clinical practice or health-related behavior and should not be reported in news media as established information without consulting multiple experts in the field.</p>
-    </div>
-    {% endif -%}
     {{
       abs(
         abs_meta.arxiv_identifier.id,
         abs_meta.title,
-        display_authors_with_links(abs_meta, author_links),
+        coauthored_authors_markup(contributors) if contributors else display_authors_with_links(abs_meta, author_links),
         abs_meta.abstract,
         abs_meta.get_datetime_of_version(abs_meta.version),
         abs_meta.primary_category,
@@ -65,12 +47,11 @@
         version = abs_meta.version,
         submission_history = abs_meta.version_history,
         secondary_categories = abs_meta.get_secondaries(),
-        download_button_markup = download_button,
-        datacite_doi = datacite_doi
+        download_button_markup = download_button
       )
     }}
     <div class="submission-history">
-      <h2>Submission history</h2> From: {{ abs_meta.submitter.name|tex2utf if abs_meta.submitter.name != None }} [<a href="/show-email/{{ abs_meta.arxiv_id|show_email_hash }}/{{ abs_meta.arxiv_id }}" rel="nofollow">view email</a>]
+      <h2>Submission history</h2> From: {{ abs_meta.submitter.name|tex2utf if abs_meta.submitter.name != None }}
       {#- Extra message for proxy sites (i.e. Proxy line has username and id) -#}
       {#- TODO: revisit this. Logic for display follows classic but is strange; sometimes a proxy is just a person's name. -#}
       {% if abs_meta.proxy != None %}&nbsp;[via {% if abs_meta.proxy|wordcount == 1 or abs_meta.proxy.startswith('ccsd') %}{{ abs_meta.proxy.split()[0]|upper }} proxy{% else %}{{ abs_meta.proxy|tex2utf }} as proxy{% endif %}]{% endif %}
@@ -79,16 +60,15 @@
             {{ generate_version_entry(version_entry, abs_meta.version) }}
       {%- endfor -%}
     </div>
+    {%- if contributors %}
+    {% include "abs/contributions.html" %}
+    {%- endif %}
   </div>
   <!--end leftcolumn-->
   {% include "abs/extra_services.html" %}
-  {% if show_labs %}
-    {% include "abs/labs_tabs.html" %}
-  {% endif %}
 
   <div class="endorsers">
-    <a href="{{ url_for('.show_endorsers',arxiv_id=abs_meta.arxiv_id) }}" class="endorser-who" rel="nofollow">Which authors of this paper are endorsers?</a> |
-    <a id="mathjax_toggle" href="javascript:setMathjaxCookie()">Disable MathJax</a> (<a href="{{ url_for('help_mathjax') }}">What is MathJax?</a>)
+    <a id="mathjax_toggle" href="javascript:setMathjaxCookie()">Disable MathJax</a> (<a href="https://www.mathjax.org/">What is MathJax?</a>)
     <span class="help" style="font-style: normal; float: right; margin-top: 0; margin-right: 1em;"></span>
   </div>
   <script type="text/javascript" language="javascript">mathjaxToggle();</script>
@@ -128,6 +108,17 @@
   ]
 {%- endmacro -%}
 
+{%- macro coauthored_authors_markup(contributors) -%}
+  {%- for c in contributors -%}
+    {%- if c.kind == 'ai' -%}
+    <span class="ca-author ca-author-ai">{{ c.display_name }}<span class="ca-ai-badge" title="AI system: {{ c.ai_system }} {{ c.ai_version }} ({{ c.ai_provider }})">AI</span></span>
+    {%- else -%}
+    <a href="{{ url_for('search_box') }}?searchtype=author&amp;query={{ c.display_name|urlencode }}" class="ca-author">{{ c.display_name }}</a>
+    {%- endif -%}
+    {%- if not loop.last %}, {% endif -%}
+  {%- endfor -%}
+{%- endmacro -%}
+
 {%- macro generate_scholar_tags() -%}
 {%- if meta_tags %}
     {%- for tag in meta_tags %}
@@ -138,21 +129,19 @@
 
 {%- macro generate_social_media_tags() -%}
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="arXiv.org" />
+<meta property="og:site_name" content="Coauthored" />
 <meta property="og:title" content="{{ abs_meta.title|tex2utf }}" />
 <meta property="og:url" content="{{ canonical_url(abs_meta.arxiv_id, abs_meta.version) }}" />
-<meta property="og:image" content="{{ url_for('static', filename='images/arxiv-logo-fb.png') }}" />
-<meta property="og:image:secure_url" content="{{ url_for('static', filename='images/arxiv-logo-fb.png') }}" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="700" />
-<meta property="og:image:alt" content="arXiv logo"/>
+<meta property="og:image" content="{{ url_for('static', filename='images/coauthored-og.png', _external=True) }}" />
+<meta property="og:image:width" content="512" />
+<meta property="og:image:height" content="512" />
+<meta property="og:image:alt" content="Coauthored logo"/>
 <meta property="og:description" content="{{ abs_meta.abstract|trim|tex2utf }}"/>
-<meta name="twitter:site" content="@arxiv"/>
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="{{ abs_meta.title|tex2utf|truncate(70, False, '...')|tex2utf }}"/>
 <meta name="twitter:description" content="{{ abs_meta.abstract|trim|truncate(200, False, '...')|tex2utf }}"/>
-<meta name="twitter:image" content="https://static.arxiv.org/icons/twitter/arxiv-logo-twitter-square.png"/>
-<meta name="twitter:image:alt" content="arXiv logo"/>
+<meta name="twitter:image" content="{{ url_for('static', filename='images/coauthored-og.png', _external=True) }}"/>
+<meta name="twitter:image:alt" content="Coauthored logo"/>
 {%- endmacro -%}
 
 {%- macro category_line() -%}
@@ -171,9 +160,9 @@
     {%- set vpart = '' -%}
   {% endif %}
   {%- if abs_meta.primary_category.id in abs_meta.arxiv_id -%}
-    <a href="{{ canonical_url(id,version) }}">arXiv:{{id}}{{vpart}}</a>
+    <a href="{{ canonical_url(id,version) }}">coauthored:{{id}}{{vpart}}</a>
   {%- else -%}
-    <a href="{{ canonical_url(id,version) }}">arXiv:{{id}}{{vpart}}</a> [{{abs_meta.primary_category.id}}]
+    <a href="{{ canonical_url(id,version) }}">coauthored:{{id}}{{vpart}}</a> [{{abs_meta.primary_category.id}}]
   {%- endif -%}
 {%- endmacro -%}
 
@@ -210,7 +199,7 @@
       <!-- tooltip description -->
       <div role="tooltip" id="more-info-desc-1">
         <span class="left-corner"></span>
-        Older arxiv papers may lack submitter name
+        Some papers may lack a submitter name
       </div>
     </div></span>
     {% elif abs_meta.submitter.name != None %}
@@ -224,7 +213,7 @@
       <!-- tooltip description -->
       <div role="tooltip" id="more-info-desc-1">
         <span class="left-corner"></span>
-        Older arxiv papers may lack submitter name
+        Some papers may lack a submitter name
       </div>
     </div></span>
     {% endif %}
@@ -248,8 +237,7 @@
     secondary_categories = [],
     include_stylesheet = 1,
     embed_stylesheet = 0,
-    download_button_markup = None,
-    datacite_doi = None
+    download_button_markup = None
 ) -%}
 
 {% if include_stylesheet and not embed_stylesheet %}
@@ -319,31 +307,6 @@
           <td class="tablecell label">&nbsp;</td>
           <td class="tablecell arxividv">(or <span class="arxivid">
               {{ base_macros.version_atag(arxiv_id, version, primary_category) }}</span> for this version)
-          </td>
-        </tr>
-        <tr>
-          <td class="tablecell label">&nbsp;</td>
-          <td class="tablecell arxivdoi">
-            {%- if datacite_doi %}
-              <a href="https://doi.org/{{ datacite_doi }}"  id="arxiv-doi-link">https://doi.org/{{ datacite_doi }}</a>
-            {%- else %}
-              <a href="https://doi.org/10.48550/arXiv.{{ arxiv_id }}" id="arxiv-doi-link">https://doi.org/10.48550/arXiv.{{ arxiv_id }}</a>
-            {%- endif -%}
-            <div class="button-and-tooltip">
-              <button class="more-info" aria-describedby="more-info-desc-1">
-                <svg height="15" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z" class=""></path></svg>
-                <span class="visually-hidden">Focus to learn more</span>
-              </button>
-              <!-- tooltip description -->
-              <div role="tooltip" id="more-info-desc-1">
-                <span class="left-corner"></span>
-                {%- if datacite_doi %}
-                  arXiv-issued DOI via DataCite
-                {%- else %}
-                  arXiv-issued DOI via DataCite (pending registration)
-                {%- endif -%}
-              </div>
-            </div>
           </td>
         </tr>
         {%- if journal_ref %}

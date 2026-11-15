@@ -1,17 +1,3 @@
-{%- macro google_scholar_link(abs_meta, authors) -%}
-  {%- set author_params = namespace(value="") -%}
-  {%- set author_count = namespace(value=0) -%}
-  {%- set max_authors = 2 -%}
-  {%- for author in authors[0] -%}
-    {%- if author_count.value < max_authors and author is not string -%}
-      {%- set author_params.value = author_params.value + '&author=' + author[0] |urlencode -%}
-      {%- set author_count.value = author_count.value + 1 -%}
-    {%- endif -%}
-  {%- endfor -%}
-  {%- set first_dt = abs_meta.get_datetime_of_version(version=0) -%}
-  <a  class="abs-button abs-button-small cite-google-scholar" href="https://scholar.google.com/scholar_lookup?arxiv_id={{ abs_meta.arxiv_id }}" target="_blank" rel="noopener">Google Scholar</a>
-{%- endmacro -%}
-
 {%- macro generate_ancillary_file_list(anc_file_list=[], cutoff=6) -%}
 <ul>
   {%- for anc_file in anc_file_list -%}
@@ -138,25 +124,6 @@ Source
 {%- endmacro -%}
 
 
-{%- macro generate_dblp_section(author_cutoff=5) -%}
-  <div class="dblp">
-    <h3><a href="{{ dblp.base_url }}">DBLP</a> - CS Bibliography</h3>
-    <div class="list">
-      <a href="{{ dblp.listing_url }}" title="listing on DBLP">listing</a>{% if dblp.bibtex_path %} | <a href="{{ dblp.bibtex_base_url }}/{{ dblp.bibtex_path }}" title="DBLP bibtex record">bibtex</a>{% endif %}
-    </div>
-    {% if dblp.author_list %}
-    <div class="list">
-      {% for author in dblp.author_list[:author_cutoff] %}
-      {#- The only reason entity_to_utf is being used is becasue dblp has xml entities in the DB -#}
-      <a href="{{ dblp.author_search_url }}?author={{ author|entity_to_utf|urlencode }}" title="DBLP author search">{{ author|entity_to_utf }}</a>{% if not loop.last %}<br/>{%- endif -%}
-    {% endfor %}
-    {% if dblp.author_list|length > author_cutoff %}
-      <div class="list">&hellip;</div>
-    {% endif %}
-    </div>
-    {% endif %}
-  </div>
-{%- endmacro -%}
 
 {%- block extra_services -%}
   <div class="extra-services">
@@ -197,11 +164,6 @@ Source
       <div class="abs-license">
         {%- if withdrawn -%}
         <div hidden>No license for this version due to withdrawn</div>
-        {%- elif abs_meta.license.icon_uri_path -%}
-        <a href="{{abs_meta.license.effective_uri}}" title="Rights to this article" class="has_license">
-          <img alt="license icon" role="presentation" src="https://arxiv.org{{ abs_meta.license.icon_uri_path }}"/>
-          <span>view license</span>
-        </a>
         {%- else -%}
         <a href="{{abs_meta.license.effective_uri}}" title="Rights to this article">view license</a>
         {%- endif -%}
@@ -216,50 +178,11 @@ Source
     {{ generate_ancillary_file_list(ancillary_files)}}
   </div><!--end ancillary-->
 {% endif %}
-    {% if has_audio %}
-    <div class="extra-third-party">
-      <h3>Additional Features</h3>
-      <ul>
-        <li><a href="{{url_for('browse.audio_landing_page', arxivid=requested_id)}}" class="abs-button download-audio">Audio Summary</a></li>
-      </ul>
-    </div>
-    {% endif %}
     <div class="browse">
     {{ generate_browse_context() }}
     </div>
-    {% if show_refs_cites %}
-      <div class="extra-ref-cite">
-        <h3>References &amp; Citations</h3>
-        <ul>
-          {% if include_inspire_link %}
-            <li>
-              <a class="abs-button abs-button-small cite-inspire" href="https://inspirehep.net/arxiv/{{ abs_meta.arxiv_id }}">INSPIRE HEP</a><br/>
-            </li>
-          {% endif %}
-          <li><a  class="abs-button abs-button-small cite-ads" href="https://scixplorer.org/abs/arXiv:{{ abs_meta.arxiv_id|replace('/','%2F') }}">SciX</a></li>
-          {#- This was previously injected by Bibliographic Explorer -#}
-          <li>{{- google_scholar_link(abs_meta, author_links) -}}</li>
-          <li><a  class="abs-button abs-button-small cite-semantic-scholar" href="https://api.semanticscholar.org/arXiv:{{ abs_meta.arxiv_id }}" target="_blank" rel="noopener">Semantic Scholar</a></li>
-        </ul>
-        <div style="clear:both;"></div>
-      </div>
-    {% endif %}
-
-    {% if trackback_ping_count and trackback_ping_count > 0 %}
-    <div class="extra-general">
-        <div class="what-is-this">
-            <h3><a  class="abs-button abs-button-grey abs-button-small trackback-link" href="/tb/{{ abs_meta.arxiv_id }}"> {{ trackback_ping_count }} blog link{% if trackback_ping_count > 1 %}s{% endif %}</a></h3> (<a href="{{url_for('help_trackback')}}" class="trackback-help">what is this?</a>)
-        </div>
-    </div>
-    {% endif %}
-
-    {#- DBLP is a bibliographical database primarily for Computer Science papers -#}
-    {%- if dblp -%}
-      {{ generate_dblp_section() }}
-    {%- endif -%}
 
     {% include "abs/cite.html" %}
-    {% include "abs/bookmarking.html" %}
   </div>
   <!--end extra-services-->
 {% endblock extra_services %}

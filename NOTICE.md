@@ -9,7 +9,7 @@ not affiliated with or endorsed by arXiv.
 | Upstream | Commit | How it is used |
 |---|---|---|
 | [arXiv/arxiv-browse](https://github.com/arXiv/arxiv-browse) | `6413996a745772c3f5e0403d99d1e774da112be1` (develop, 2026-11-12) | Forked: this repository, with its full history. |
-| [arXiv/arxiv-base](https://github.com/arXiv/arxiv-base) | `8841f53ba87e1cc4694a7d9e35d6fa5dd0bb240b` (pinned in `uv.lock`) | Used unmodified as a dependency. |
+| [arXiv/arxiv-base](https://github.com/arXiv/arxiv-base) | `8841f53ba87e1cc4694a7d9e35d6fa5dd0bb240b` (pinned in `uv.lock`) | Used unmodified as a dependency. `browse/templates/base/macros.html` is adapted from its `arxiv/base/templates/base/macros.html` (identifiers shown as `coauthored:`) and overrides it. |
 | [arXiv/design-system](https://github.com/arXiv/design-system) | not included | Removed. `browse/brand.py` and `browse/templates/coauthored_brand/` were written for Coauthored and keep the same template variable names so the pages work unchanged; no design-system code, logo or stylesheet is included. |
 
 Both upstream repositories are licensed under the MIT License, Copyright (c) 2026 arXiv, Inc.
@@ -29,5 +29,16 @@ official connection. This fork therefore:
 - identifies papers as `coauthored:YYMM.NNNNN`, never as `arXiv:` identifiers, and cites
   them with `archivePrefix={coauthored}`;
 - mentions arXiv only to credit its code, in the footer and in this file.
+
+## Features removed
+
+Coauthored does not offer these arXiv services, and their routes answer 404
+(`COAUTHORED_DISABLED_PATHS` in `browse/config.py`): trackbacks, arXiv statistics, member
+institution lookup, endorsement, arXiv author identifiers and pages, RePEc, the click-through
+tracker, the cookie and reader opt-in pages, audio summaries, arXiv Labs integrations, and
+links to third-party services that look papers up by arXiv identifier (INSPIRE, SciX, Google
+Scholar, Semantic Scholar, DBLP, social bookmarking), since Coauthored identifiers are not arXiv
+identifiers. The redirects to arXiv's help site are replaced by Coauthored's own pages
+(`browse/routes/pages.py`).
 
 `tests/test_coauthored_brand.py` audits the rendered pages for arXiv's name, links and colour.

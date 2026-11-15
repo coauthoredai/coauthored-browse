@@ -1,0 +1,12 @@
+{%- extends "pages/_page.html" -%}
+{% block page %}
+<ul>
+  <li><a href="{{ url_for('help_submit') }}">How to submit</a></li>
+  <li><a href="{{ url_for('help_identifier') }}">Identifiers and citing</a></li>
+  <li><a href="{{ url_for('help_categories') }}">Categories</a></li>
+  <li><a href="{{ url_for('ai_policy') }}">AI authorship policy</a></li>
+  <li><a href="{{ url_for('moderation_policy') }}">Moderation policy</a></li>
+  <li><a href="{{ url_for('licenses_policy') }}">Licences</a></li>
+  <li><a href="{{ url_for('contact') }}">Contact</a></li>
+</ul>
+{% endblock %}

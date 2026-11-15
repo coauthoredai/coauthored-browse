@@ -41,7 +41,7 @@ def test_no_rep_in_recent(app_with_db):
         ls=get_listing_service()
         listing=ls.list_pastweek_articles("math.RT", 0, 100)
     validate_recent_listing(listing.listings)
-    assert all(item.id !="arXiv:math/0510544" for item in listing.listings)
+    assert all(item.id !="coauthored:math/0510544" for item in listing.listings)
 
 def test_recent_find_alias(app_with_db):
     app = app_with_db
@@ -123,7 +123,7 @@ def test_recent_listing_page( client_with_db_listings):
     assert rv.status_code == 200
     text = rv.text
     assert "Thu, 3 Feb 2011 (showing 1 of 1 entries )" in text
-    assert "arXiv:0906.3421" in text
+    assert "coauthored:0906.3421" in text
     assert "(cross-list from math.CO)" in text
     assert "Tue, 1 Feb 2011 (showing 1 of 1 entries )" in text
     assert "Optics (physics.optics)" in text

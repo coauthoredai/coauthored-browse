@@ -208,10 +208,10 @@ em.boxed {
 }
 #support-ack .btn-header-donate {
   background-color: white;
-  border: 1px solid #b31b1b;
+  border: 1px solid #0b6e78;
   padding: .2em 1em 0 1em;
   border-radius: .5em;
-  color: #b31b1b;
+  color: #0b6e78;
   height: 1.5em;
   font-size: 1.25em;
   transition: all .5s ease-in-out;
@@ -237,7 +237,7 @@ em.boxed {
  * arXiv.org Masthead
  ****************************************/
 #header {
-  background-color: #b31b1b;
+  background-color: #0b6e78;
   color: #fff;
   margin: 0;
   padding: 10px 0 10px 0;
@@ -1564,7 +1564,7 @@ div#long-author-list {
 }
 
 #abs .error {
-    border: 2px solid #B31B1B;
+    border: 2px solid #0b6e78;
     background: #efefef;
     padding: 3px;
     margin: 20px 10px 10px 20px;
@@ -1739,7 +1739,7 @@ div#long-author-list {
   }
   .beta-link {
     font-size:x-small;
-    color:#b31b1b;
+    color:#0b6e78;
   }
   .abs-button-grey {
     border: 1px solid #666666;
@@ -1872,7 +1872,7 @@ div#long-author-list {
   visibility: visible;
 }
 .mobile-header {
-  background-color: #b31b1b;
+  background-color: #0b6e78;
 }
 .mobile-header .columns {
   height: 65px;
@@ -1957,7 +1957,7 @@ div#long-author-list {
   width: 50px;
   background: #fc5554;
   border: 0;
-  border-left: 1px solid #b31b1b;
+  border-left: 1px solid #0b6e78;
   border-radius: 0 10px 10px 0;
   padding: 3px;
   font-size: 20px;
@@ -3235,7 +3235,7 @@ svg.icon {
   fill: #e30906;
 }
 .icon.filter-dark_red {
-  fill: #b31b1b;
+  fill: #0b6e78;
 }
 .filter-dark_grey {
   fill: #cccccc;

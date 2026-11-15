@@ -23,14 +23,10 @@
   <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='css/browse_search.css') }}" />
   {% include "coauthored_brand/head.html" %}
   <script language="javascript" src="{{ url_for('static', filename='js/accordion.js') }}" ></script>
-  <script language="javascript" src="{{ url_for('static', filename='js/optin-modal.js') }}?v=20250819"></script>
   {%- endblock head -%}
 </head>
 
 <body {% block body_id %}{% endblock %}>
-  {%- if rd_int >= 202504070100 and rd_int <= 202510282140 -%}
-    {% block opt_in_modal %}{% endblock %}
-  {%- endif -%}
 
   <div class="flex-wrap-footer">
     <a href="#content" class="ds-skip-link">Skip to main content</a>
