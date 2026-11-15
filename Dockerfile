@@ -1,7 +1,7 @@
-# arxiv/browse
+# coauthored-browse (adapted from arXiv's arxiv-browse Dockerfile, MIT)
 #
-# Defines the runtime for the arXiv browse service, which provides the main
-# UIs for browse.
+# Defines the runtime for the Coauthored browse service: abstract pages,
+# listings and PDF downloads.
 
 FROM python:3.11.8-bookworm
 
