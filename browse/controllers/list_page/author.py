@@ -30,7 +30,7 @@ from browse.controllers.list_page import (
 ORCID_URI_PREFIX = 'https://orcid.org'
 ORCID_RE = re.compile(r'^(\d{4}\-\d{4}\-\d{4}-\d{3}[\dX])$')
 
-ARXIV_SCHEMA_URI = 'https://coauthored.pub/schemas/atom'
+ARXIV_SCHEMA_URI = 'https://aicoauthored.dev/schemas/atom'
 ATOM_NS = 'http://www.w3.org/2005/Atom'
 
 # Register namespaces for cleaner XML output

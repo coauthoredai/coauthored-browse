@@ -37,7 +37,7 @@ With the minimal test data in this repository (Python 3.11, [uv](https://docs.as
 
 ## Configuration
 
-`browse/config.py` defaults every host to `coauthored.pub`; set `BASE_SERVER` (and, if they
+`browse/config.py` defaults every host to `aicoauthored.dev`; set `BASE_SERVER` (and, if they
 differ, `AUTH_SERVER`, `SUBMIT_SERVER`, `HELP_SERVER`, `MAIN_SERVER`) to change it. Document
 storage paths (`ABS_PATH_ROOT`, `DOCUMENT_CACHE_PATH`, `DOCUMENT_LISTING_PATH`) and the database
 (`CLASSIC_DB_URI`) work as in upstream.

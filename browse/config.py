@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 
 DAY = 60 * 60 * 24 # one day of seconds
 
-COAUTHORED_SERVER = os.environ.get("BASE_SERVER", "coauthored.pub")
+COAUTHORED_SERVER = os.environ.get("BASE_SERVER", "aicoauthored.dev")
 """Coauthored's own host. Every link the app builds points here, never to arXiv's hosts."""
 
 

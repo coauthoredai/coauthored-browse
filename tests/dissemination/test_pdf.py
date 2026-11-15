@@ -8,7 +8,7 @@ def test_pdf_headers(client_with_test_fs):
     assert "pdf-cs/0011004v" not in head
     assert "paper-id-cs/0011004" in head
 
-    assert rv.headers["Link"] == "<https://coauthored.pub/pdf/cs/0011004>; rel='canonical'"
+    assert rv.headers["Link"] == "<https://aicoauthored.dev/pdf/cs/0011004>; rel='canonical'"
 
     rv=client_with_test_fs.head("/pdf/cs/0011004v1")
     head=rv.headers["Surrogate-Key"]
@@ -17,7 +17,7 @@ def test_pdf_headers(client_with_test_fs):
     assert "pdf-cs/0011004v1" in head
     assert "paper-id-cs/0011004" in head
 
-    assert rv.headers["Link"] == "<https://coauthored.pub/pdf/cs/0011004>; rel='canonical'", "should not have version"
+    assert rv.headers["Link"] == "<https://aicoauthored.dev/pdf/cs/0011004>; rel='canonical'", "should not have version"
 
 
 def test_pdf_redirect(client_with_test_fs):
