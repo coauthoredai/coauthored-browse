@@ -82,6 +82,10 @@ root:
 At a replacement, announce moves the old current PDF to its `orig/` path and writes the new
 one at the `ftp/` path. Staged uploads live under `staging/` and are never served.
 
+The store root must also contain `reasons.json`, a JSON object mapping paper ids to the reason
+a version cannot be served (browse fails to serve papers without it). Coauthored writes `{}`
+there at `init-db` and adds entries only if a version must be suppressed.
+
 ## Browse configuration in production
 `DOCUMENT_ABSTRACT_SERVICE=browse.services.documents.db_docs`,
 `DOCUMENT_LISTING_SERVICE=browse.services.listing.db_listing`, `CLASSIC_DB_URI`,
