@@ -14,7 +14,9 @@ gcloud projects create $PROJECT && gcloud config set project $PROJECT   # then l
 gcloud services enable run.googleapis.com sqladmin.googleapis.com artifactregistry.googleapis.com \
   secretmanager.googleapis.com cloudscheduler.googleapis.com
 gcloud artifacts repositories create coauthored --repository-format=docker --location=$REGION
-gcloud sql instances create coauthored-db --database-version=MYSQL_8_0 --tier=db-f1-micro --region=$REGION
+gcloud sql instances create coauthored-db --database-version=MYSQL_8_4 --tier=db-f1-micro --region=$REGION \
+  --database-flags='^:^sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'
+# arXiv's listing queries need sql_mode without ONLY_FULL_GROUP_BY.
 gcloud sql databases create coauthored --instance=coauthored-db
 gcloud sql users create browse --instance=coauthored-db --password=...   # read-only grants
 gcloud storage buckets create gs://coauthored-papers --location=$REGION --uniform-bucket-level-access

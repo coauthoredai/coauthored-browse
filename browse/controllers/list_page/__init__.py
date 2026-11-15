@@ -612,7 +612,8 @@ def sub_sections_for_types(
     rep_start = new_count + cross_count + 1
     last_shown = skipn + shown
 
-    date = resp.announced.strftime('%A, %-d %B %Y')
+    # Coauthored: a new site has had no announcement yet.
+    date = resp.announced.strftime('%A, %-d %B %Y') if resp.announced else 'no announcement yet'
 
     sec_new=ListingSection(
         day=date,
@@ -625,7 +626,7 @@ def sub_sections_for_types(
     )
 
     sec_cross=ListingSection(
-        day=resp.announced.strftime('%A, %-d %B %Y'),
+        day=date,
         items=crosses,
         total=cross_count,
         continued=skipn + 1 > cross_start,
@@ -635,7 +636,7 @@ def sub_sections_for_types(
     )
 
     sec_rep=ListingSection(
-        day=resp.announced.strftime('%A, %-d %B %Y'),
+        day=date,
         items=reps,
         total=rep_count,
         continued=skipn + 1 > rep_start,

@@ -75,3 +75,13 @@ def test_operator_named_on_terms_privacy_and_about(dbclient):
     for path in ('/terms', '/privacy', '/about'):
         assert 'Gideon Solutions, LLC' in dbclient.get(path).data.decode(), path
     assert 'laws of the State of North Carolina' in dbclient.get('/terms').data.decode()
+
+
+def test_new_listing_sections_before_any_announcement():
+    """A new site has no announcement yet; /list/<cat>/new must not crash."""
+    from browse.controllers.list_page import sub_sections_for_types
+    from browse.services.listing import ListingNew
+    resp = ListingNew(listings=[], new_count=0, cross_count=0, rep_count=0, announced=None,
+                      expires="")  # type: ignore[arg-type]
+    secs = sub_sections_for_types(resp, 0, 25)['sub_sections_for_types']
+    assert secs[0].day == 'no announcement yet'
