@@ -21,11 +21,13 @@ gcloud storage buckets create gs://coauthored-papers --location=$REGION --unifor
 gcloud iam service-accounts create coauthored-browse
 gcloud storage buckets add-iam-policy-binding gs://coauthored-papers \
   --member=serviceAccount:coauthored-browse@$PROJECT.iam.gserviceaccount.com --role=roles/storage.objectViewer
-printf 'mysql+pymysql://browse:...@/coauthored?unix_socket=/cloudsql/%s:%s:coauthored-db' $PROJECT $REGION \
+printf 'mysql+pymysql://browse:...@/coauthored?unix_socket=/cloudsql/%s:%s:coauthored-db&charset=utf8mb4' $PROJECT $REGION \
   | gcloud secrets create browse-db-uri --data-file=-
 ```
 
-The schema and seed rows are created by coauthored-submit (`flask init-db`).
+The schema (arXiv's classic schema converted to utf8mb4, plus Coauthored's tables) and seed
+rows are created by coauthored-submit (`scripts/load_classic_schema.sh`, `flask init-db`);
+browse must connect with `charset=utf8mb4`, as above.
 
 ## Build and deploy
 
