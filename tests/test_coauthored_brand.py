@@ -93,3 +93,15 @@ def test_no_arxiv_brand_colour_in_css():
     hits = [p.name for p in css.glob("*.css") if re.search(r"#b31b1b", p.read_text(errors="replace"), re.I)]
     print("\nCSS files still using arXiv's red (#B31B1B):", hits)
     assert not hits
+
+
+def test_loaded_static_assets_do_not_call_arxiv():
+    """Scripts and stylesheets the templates load must not fetch from arXiv's servers
+    (e.g. MathJax from static.arxiv.org)."""
+    root = Path(__file__).parent.parent / "browse"
+    used = set()
+    for tpl in (root / "templates").rglob("*.html"):
+        used.update(re.findall(r"filename='((?:js|css)/[^']+)'", tpl.read_text(errors="replace")))
+    offenders = [f for f in sorted(used) if (root / "static" / f).exists()
+                 and ARXIV_DOMAIN.search((root / "static" / f).read_text(errors="replace"))]
+    assert not offenders, offenders

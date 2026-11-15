@@ -165,7 +165,10 @@ Source
         {%- if withdrawn -%}
         <div hidden>No license for this version due to withdrawn</div>
         {%- else -%}
-        <a href="{{abs_meta.license.effective_uri}}" title="Rights to this article">view license</a>
+        <a href="{{abs_meta.license.effective_uri}}" title="Rights to this article">
+          {%- if abs_meta.license.label and not abs_meta.license.effective_uri.startswith('http://arxiv.org/licenses/') -%}Licence: {{ abs_meta.license.label }}
+          {%- elif abs_meta.license.effective_uri and 'nonexclusive-distrib' in abs_meta.license.effective_uri -%}Licence: Coauthored non-exclusive distribution licence
+          {%- else -%}view licence{%- endif -%}</a>
         {%- endif -%}
       </div>
     </div>

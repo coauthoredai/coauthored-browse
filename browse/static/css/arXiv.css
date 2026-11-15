@@ -2375,7 +2375,7 @@ div#long-dc-list {
   width: 88px;
   height: 28px;
   overflow: hidden;
-  background: #fff url("//static.arxiv.org/icons/arrow-down-select.png") no-repeat right 4px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%234a5568' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 4px;
   background-size: 20px auto;
   border: 1px solid #ccc;
 }
@@ -2390,7 +2390,7 @@ div#long-dc-list {
   color: #757575;
   padding-right: 5px;
   padding-top: 3px;
-  background: #fff url("//static.arxiv.org/icons/search-icon.png") no-repeat right 2px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7' fill='none' stroke='%234a5568' stroke-width='2'/%3E%3Cline x1='21' y1='21' x2='16.5' y2='16.5' stroke='%234a5568' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 2px;
   background-size: 25px auto;
   cursor: pointer;
 }
@@ -2414,7 +2414,7 @@ div#long-dc-list {
   font-weight: bold;
   font-size: 12px;
   padding-left: 10px;
-  background: #fff url("//static.arxiv.org/icons/semantic-scholar-logo-1.png") no-repeat right 8px;
+  background: #fff;
   background-size: 130px auto;
   color: #264D71;
 }
@@ -2448,7 +2448,7 @@ div#long-dc-list {
   color: #757575;
   padding-right: 5px;
   padding-top: 3px;
-  background: #fff url("//static.arxiv.org/icons/search-icon.png") no-repeat right 2px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7' fill='none' stroke='%234a5568' stroke-width='2'/%3E%3Cline x1='21' y1='21' x2='16.5' y2='16.5' stroke='%234a5568' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 2px;
   background-size: 25px auto;
   cursor: pointer;
 }
@@ -2528,7 +2528,7 @@ div#long-dc-list {
   width: 88px;
   height: 28px;
   overflow: hidden;
-  background: #fff url("//static.arxiv.org/icons/arrow-down-select.png") no-repeat right 4px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%234a5568' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 4px;
   background-size: 20px auto;
   border: 1px solid #ccc;
 }
@@ -2543,7 +2543,7 @@ div#long-dc-list {
   color: #757575;
   padding-right: 5px;
   padding-top: 3px;
-  background: #fff url("//static.arxiv.org/icons/search-icon.png") no-repeat right 2px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7' fill='none' stroke='%234a5568' stroke-width='2'/%3E%3Cline x1='21' y1='21' x2='16.5' y2='16.5' stroke='%234a5568' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 2px;
   background-size: 25px auto;
   cursor: pointer;
 }
@@ -2567,7 +2567,7 @@ div#long-dc-list {
   font-weight: bold;
   font-size: 12px;
   padding-left: 10px;
-  background: #fff url("//static.arxiv.org/icons/semantic-scholar-logo-1.png") no-repeat right 7px;
+  background: #fff;
   background-size: 110px auto;
   color: #264D71;
 }
@@ -2601,7 +2601,7 @@ div#long-dc-list {
   color: #757575;
   padding-right: 5px;
   padding-top: 3px;
-  background: #fff url("//static.arxiv.org/icons/search-icon.png") no-repeat right 2px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7' fill='none' stroke='%234a5568' stroke-width='2'/%3E%3Cline x1='21' y1='21' x2='16.5' y2='16.5' stroke='%234a5568' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 2px;
   background-size: 25px auto;
   cursor: pointer;
 }
