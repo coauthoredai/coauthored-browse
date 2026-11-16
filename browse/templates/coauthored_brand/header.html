@@ -21,6 +21,7 @@
   {% if not hide_nav %}
   <nav class="ds-site-header-nav" id="ds-site-header-nav" aria-label="Main navigation">
     <a href="{{ submit_url }}/submit">Submit</a>
+    <a href="{{ submit_url }}/submitted">Submitted</a>
     <a href="{{ help_url }}/about">About</a>
     <span class="ds-site-header-divider" aria-hidden="true"></span>
     {% if signed_in %}<a href="{{ auth_url }}{{ account_path }}" class="ds-site-header-login">Account</a>{% endif %}
